@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_novo"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:visibility="visible"
+    tools:context="Activity.CadastroActivity"
+    >
+
+    <ImageView
+        android:id="@+id/logoFactu"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_marginBottom="55dp"
+        android:baselineAlignBottom="false"
+        android:clickable="false"
+        android:contentDescription="Imagem da Factu"
+        android:scaleType="centerInside"
+        android:visibility="visible"
+        app:srcCompat="@drawable/factu_png2"
+        tools:src="@drawable/factu_png2"
+        tools:srcCompat="@drawable/factu_png2"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/CPF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_txt_cadastro"
+        android:drawableStart="@drawable/baseline_person_24"
+        android:drawablePadding="8dp"
+        android:ems="10"
+        android:hint="Login"
+        android:inputType="number"
+        android:padding="8dp"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/Senha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/background_txt_cadastro"
+        android:drawableStart="@drawable/baseline_lock_24"
+        android:drawablePadding="8dp"
+        android:ems="10"
+        android:hint="Senha"
+        android:inputType="number|numberPassword"
+        android:padding="8dp"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFECEC"
+        android:textColorHint="#FFFFFF" />
+
+    <Button
+        android:id="@+id/botaoEntrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:backgroundTint="#FAFAFA"
+        android:onClick="login"
+        android:shadowColor="#000000"
+        android:text="Entrar"
+        android:textAllCaps="false"
+        android:textColor="#000000" />
+
+</LinearLayout>
