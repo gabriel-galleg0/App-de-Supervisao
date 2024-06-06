@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/principal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_novo"
@@ -11,7 +11,7 @@
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:visibility="visible"
-    tools:context="Activity.CadastroActivity"
+    tools:context="Activity.AuditorActivity"
     >
 
     <ImageView
@@ -30,7 +30,7 @@
         tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/CPF"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -41,7 +41,7 @@
         android:drawablePadding="8dp"
         android:ems="10"
         android:hint="Login"
-        android:inputType="number"
+        android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
@@ -59,7 +59,7 @@
         android:drawablePadding="8dp"
         android:ems="10"
         android:hint="Senha"
-        android:inputType="number|numberPassword"
+        android:inputType="textPassword"
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
@@ -73,7 +73,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:backgroundTint="#FAFAFA"
-        android:onClick="login"
+        android:onClick="logarUsuario"
         android:shadowColor="#000000"
         android:text="Entrar"
         android:textAllCaps="false"

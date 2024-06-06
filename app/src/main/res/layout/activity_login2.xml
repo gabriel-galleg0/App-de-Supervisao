@@ -1,49 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Activity.LoginActivity">
+    android:background="@drawable/background_novo"
+    android:orientation="vertical"
+    android:scrollbars="vertical"
+    android:fillViewport="true"
+    tools:context="Activity.LoginAuditorActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
+        android:id="@+id/principal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_novo"
-        android:baselineAligned="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:visibility="visible"
-        tools:context="Activity.LoginActivity"
-        tools:ignore="DuplicateIds">
+        android:layout_height="690dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/botaoCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:baselineAlignBottom="true"
-            android:clickable="true"
-            android:padding="1dp"
-            android:src="@drawable/baseline_camera_alt_24"
-            android:textAlignment="center"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
 
         <ImageView
             android:id="@+id/logoFactu"
             android:layout_width="67dp"
             android:layout_height="46dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
             android:baselineAlignBottom="false"
             android:clickable="false"
             android:contentDescription="Imagem da Factu"
@@ -56,101 +35,91 @@
             tools:srcCompat="@drawable/factu_png2"
             tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/botaoEntrar"
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#FAFAFA"
-            android:shadowColor="#000000"
-            android:text="Enviar Formulário"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.526"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.841" />
-
         <TextView
             android:id="@+id/formularios"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="382dp"
+            android:layout_height="58dp"
             android:background="@drawable/background_txt_cadastro"
             android:includeFontPadding="true"
             android:padding="10dp"
-            android:text="Falta de visita do vendedor"
+            android:text="Falta de Visita do Vendedor"
+            android:textAlignment="viewStart"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.151" />
+            app:layout_constraintVertical_bias="0.157" />
 
         <TextView
             android:id="@+id/formularios1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="382dp"
+            android:layout_height="58dp"
             android:background="@drawable/background_txt_cadastro"
             android:includeFontPadding="true"
             android:padding="10dp"
             android:text="Falta de Produto"
+            android:textAlignment="viewStart"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.254" />
+            app:layout_constraintVertical_bias="0.271" />
 
         <TextView
             android:id="@+id/formularios2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="382dp"
+            android:layout_height="58dp"
             android:background="@drawable/background_txt_cadastro"
             android:includeFontPadding="true"
             android:padding="10dp"
-            android:text="Freezer com invasão"
+            android:text="Freezer com Invasão"
+            android:textAlignment="viewStart"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.354" />
+            app:layout_constraintVertical_bias="0.377" />
+
 
         <TextView
             android:id="@+id/formularios3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="382dp"
+            android:layout_height="58dp"
             android:background="@drawable/background_txt_cadastro"
             android:includeFontPadding="true"
             android:padding="10dp"
-            android:text="Necessita de Manutenção?"
+            android:text="Necessita de manutenção?"
+            android:textAlignment="viewStart"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.575" />
+            app:layout_constraintVertical_bias="0.485" />
 
         <TextView
             android:id="@+id/formularios4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="382dp"
+            android:layout_height="58dp"
             android:background="@drawable/background_txt_cadastro"
             android:includeFontPadding="true"
             android:padding="10dp"
             android:text="Necessita de Limpeza?"
+            android:textAlignment="viewStart"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.551"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.673" />
+            app:layout_constraintVertical_bias="0.592" />
 
         <CheckBox
             android:id="@+id/checkBox2"
@@ -165,7 +134,7 @@
             app:layout_constraintHorizontal_bias="0.928"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.152" />
+            app:layout_constraintVertical_bias="0.166" />
 
         <CheckBox
             android:id="@+id/checkBox3"
@@ -177,13 +146,13 @@
             app:buttonIconTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintHorizontal_bias="0.928"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.254" />
+            app:layout_constraintVertical_bias="0.277" />
 
         <CheckBox
-            android:id="@+id/checkBox4"
+            android:id="@+id/checkBoxInvasão"
             android:layout_width="60dp"
             android:layout_height="39dp"
             android:buttonTint="#FFFFFF"
@@ -192,13 +161,13 @@
             app:buttonIconTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintHorizontal_bias="0.928"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.354" />
+            app:layout_constraintVertical_bias="0.381" />
 
         <CheckBox
-            android:id="@+id/checkBox5"
+            android:id="@+id/checkBoxManutencao"
             android:layout_width="60dp"
             android:layout_height="39dp"
             android:buttonTint="#FFFFFF"
@@ -207,38 +176,188 @@
             app:buttonIconTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintHorizontal_bias="0.928"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.575" />
+            app:layout_constraintVertical_bias="0.484" />
 
         <CheckBox
-            android:id="@+id/checkBox6"
+            android:id="@+id/checkBoxLimpeza"
             android:layout_width="60dp"
             android:layout_height="39dp"
+            android:layout_marginTop="31dp"
             android:buttonTint="#FFFFFF"
             android:text="SIM"
             android:textColor="#FFFFFF"
             app:buttonIconTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintHorizontal_bias="0.928"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.673" />
+            app:layout_constraintVertical_bias="0.571" />
+
+        <ImageView
+            android:id="@+id/fototiradaInvasao"
+            android:layout_width="296dp"
+            android:layout_height="196dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.608"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.259"
+            app:srcCompat="@drawable/background_txt_cadastro"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botaoCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAlignBottom="true"
+            android:clickable="true"
+            android:padding="1dp"
+            android:src="@drawable/baseline_camera_alt_24"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.308"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botaoCameraManu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAlignBottom="true"
+            android:clickable="true"
+            android:padding="1dp"
+            android:src="@drawable/baseline_camera_alt_24"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.677"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/botaoEnviar"
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FAFAFA"
+            android:shadowColor="#000000"
+            android:text="Enviar Formulário"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.526"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.843" />
+
+        <ImageView
+            android:id="@+id/fotoTiradaManutencao"
+            android:layout_width="296dp"
+            android:layout_height="196dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.608"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65"
+            app:srcCompat="@drawable/background_txt_cadastro"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/salvarInvasao"
+            android:layout_width="89dp"
+            android:layout_height="47dp"
+            android:backgroundTint="#FAFAFA"
+            android:shadowColor="#000000"
+            android:text="Salvar"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.304"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/salvarManutencao"
+            android:layout_width="89dp"
+            android:layout_height="47dp"
+            android:backgroundTint="#FAFAFA"
+            android:shadowColor="#000000"
+            android:text="Salvar"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.668"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/fotoTiradaLimpeza"
+            android:layout_width="296dp"
+            android:layout_height="196dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.608"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8"
+            app:srcCompat="@drawable/background_txt_cadastro" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botaoCameraLimpeza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.983"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.871"
+            app:srcCompat="@drawable/baseline_camera_alt_24"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/salvarLimpeza"
+            android:layout_width="89dp"
+            android:layout_height="47dp"
+            android:backgroundTint="#FAFAFA"
+            android:shadowColor="#000000"
+            android:text="Salvar"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.049"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.872" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/fototirada"
-        android:layout_width="296dp"
-        android:layout_height="196dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.607"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.267"
-        app:srcCompat="@drawable/background_txt_cadastro" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="espacoFormularios">400dp</dimen>
+    <dimen name="espacoFormulariosLimpeza">440dp</dimen>
+    <dimen name="espaco_limpeza">460dp</dimen>
+    <dimen name="espaco_manutencaoimg">80dp</dimen>
+    <dimen name="espaco_manutencao">400dp</dimen>
+    <dimen name="space_below_checkbox">270dp</dimen>
+    <dimen name="default_top_margin">350dp</dimen>
+    <dimen name="default_top_margin4">420dp</dimen>
+    <dimen name="default_top_margin3">370dp</dimen>
+    <dimen name="default_top_margin2">400dp</dimen>
+    <dimen name="espaco_imagem">370dp</dimen>
+    <dimen name="espaco_imagem2">420dp</dimen>
+    <dimen name="espaco_camera">410dp</dimen>
+    <dimen name="espaco_camera_manutencao">230dp</dimen>
+    <dimen name="espacoSalvar">260dp</dimen>
+    <dimen name="espacoBotaoenviar">500dp</dimen>
+</resources>
