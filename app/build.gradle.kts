@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
     alias(libs.plugins.jetbrains.kotlin.android)
+
 }
 
 android {
@@ -54,6 +55,10 @@ android {
 dependencies {
 
 
+
+    implementation("com.karumi:dexter:6.2.2")
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
     implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
     implementation ("com.google.android.material:material:1.9.0")
     implementation("com.google.android.gms:play-services-auth:21.0.0")

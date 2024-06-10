@@ -7,6 +7,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -25,11 +26,13 @@
         android:theme="@style/Theme.AppJava"
         tools:targetApi="31">
         <activity
-            android:name=".TesteActivity"
+            android:name="Activity.VendedorNotificacao"
             android:exported="false" />
-
         <activity
-            android:name="Activity.LoginVendedorActivity"
+            android:name="Activity.NotificaVendedor"
+            android:exported="false" />
+        <activity
+            android:name="Activity.SelecionarLojasActivity"
             android:exported="true" />
         <activity
             android:name="Activity.VendedorActivity"
@@ -39,7 +42,6 @@
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AppJava" />
-
         <activity
             android:name="Activity.MainActivity"
             android:exported="true">
@@ -49,7 +51,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="Activity.LoginAuditorActivity"
             android:exported="true">
@@ -59,6 +60,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="Activity.provider"
@@ -68,6 +70,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:resource="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/white" />
     </application>
 
 </manifest>

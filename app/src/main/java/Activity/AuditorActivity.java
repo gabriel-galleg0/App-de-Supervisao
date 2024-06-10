@@ -58,7 +58,7 @@ public class AuditorActivity extends AppCompatActivity {
         }
         );}
     public void login() {
-        Intent intent = new Intent(this, LoginAuditorActivity.class);
+        Intent intent = new Intent(this, SelecionarLojasActivity.class);
         startActivity(intent);
     }
 

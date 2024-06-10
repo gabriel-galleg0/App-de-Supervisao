@@ -46,7 +46,7 @@ import java.io.ByteArrayOutputStream;
 
 public class LoginAuditorActivity extends AppCompatActivity {
     private Bitmap imageBitmap;
-
+    private String nomeLoja;
     private FloatingActionButton botaoCameraManutencao;
     private ImageView imageView;
     private FloatingActionButton captureButton;
@@ -93,10 +93,18 @@ public class LoginAuditorActivity extends AppCompatActivity {
         botaoCameraLimpeza = findViewById(R.id.botaoCameraLimpeza);
 
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            nomeLoja= intent.getStringExtra("nome_loja");
+            String dadosLojaJson = intent.getStringExtra("dados_loja");
+            // Use os detalhes da loja conforme necessário
+        }
+
+
         botaoEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                salvarImagens();
+                salvarImagens(nomeLoja);
             }
         });
 
@@ -481,7 +489,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
         findViewById(R.id.botaoCamera).setLayoutParams(layoutParams6);
     }
 
-    private void salvarImagens() {
+    private void salvarImagens(String nomeLoja) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://appjava1-2968b.appspot.com");
 
@@ -490,7 +498,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             Drawable drawable = imageView.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "Invasao", storageRef);
+                salvarImagemNoFirebase(bitmap, "Invasao", nomeLoja, storageRef);
             } else {
                 // Lide com o caso em que o Drawable não é um BitmapDrawable
             }
@@ -501,7 +509,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             Drawable drawable = imageViewManutencao.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "Manutencao", storageRef);
+                salvarImagemNoFirebase(bitmap, "Manutencao", nomeLoja, storageRef);
             } else {
                 // Lide com o caso em que o Drawable não é um BitmapDrawable
             }
@@ -512,7 +520,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             Drawable drawable = fotoTiradaLimpeza.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "limpeza", storageRef);
+                salvarImagemNoFirebase(bitmap, "limpeza", nomeLoja, storageRef);
             } else {
                 // Lide com o caso em que o Drawable não é um BitmapDrawable
             }
@@ -520,12 +528,12 @@ public class LoginAuditorActivity extends AppCompatActivity {
     }
 
 
-    private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, StorageReference storageRef) {
+    private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, String nomeLoja, StorageReference storageRef) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        String path = "imagens/" + tipo + "_" + System.currentTimeMillis() + ".jpg";
+        String path = "imagensProblema/" + tipo + "_" + "-" + nomeLoja + "_" + System.currentTimeMillis() + ".jpg";
         StorageReference imageref = storageRef.child(path);
 
         UploadTask uploadTask = imageref.putBytes(data);
