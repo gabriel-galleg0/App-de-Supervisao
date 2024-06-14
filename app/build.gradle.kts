@@ -55,6 +55,8 @@ android {
 dependencies {
 
 
+    implementation("com.google.android.gms:play-services-base:18.3.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
 
     implementation("com.karumi:dexter:6.2.2")
     implementation("com.squareup.picasso:picasso:2.71828")
@@ -62,7 +64,7 @@ dependencies {
     implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
     implementation ("com.google.android.material:material:1.9.0")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -78,14 +80,21 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
+
+    //Firebase
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation ("com.google.firebase:firebase-storage:20.0.1")
     implementation("com.google.firebase:firebase-firestore:24.0.1")
     implementation("com.google.firebase:firebase-database:20.0.3")
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
+
+
 }

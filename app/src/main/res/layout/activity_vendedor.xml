@@ -30,7 +30,7 @@
         tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/telefone"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -41,7 +41,7 @@
         android:drawablePadding="8dp"
         android:ems="10"
         android:hint="Login"
-        android:inputType="phone"
+        android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"

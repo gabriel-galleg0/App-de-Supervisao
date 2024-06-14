@@ -1,5 +1,7 @@
 package Activity;
 
+import com.example.appjava.R;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,74 +16,127 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.appjava.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import Model.Usuario;
 import Util.ConfigDb;
 
 public class VendedorActivity extends AppCompatActivity {
 
-    Button botaoEntrar;
-    FirebaseAuth autenticacao;
-    EditText campoTelefone, campoSenha;
-
-    private FirebaseAuth mAuth;
-
+    Button botaoEntrarVendedor;
+    EditText campoEmail, campoSenha;
+    private FirebaseAuth autenticacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_vendedor);
         autenticacao = ConfigDb.autenticacao();
-        incicializar();
-        mAuth = FirebaseAuth.getInstance();
 
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.principal), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        inicializar();
+        botaoEntrarVendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logarUsuario(v);
+            }
         });
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
     }
 
 
-
-
-
-    private void incicializar(){
-        campoTelefone = findViewById(R.id.email);
+    private void inicializar() {
+        campoEmail = findViewById(R.id.email);
         campoSenha = findViewById(R.id.Senha);
-        botaoEntrar = findViewById(R.id.botaoEntrar);
+        botaoEntrarVendedor = findViewById(R.id.botaoEntrarVendedor);
+    }
+    public void login() {
+        Intent intent = new Intent(this, SelecionarLojasVendedorActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Inicializador de compontentes
+     */
+    private void incicializar(){
+        campoEmail = findViewById(R.id.email);
+        campoSenha = findViewById(R.id.Senha);
+        botaoEntrarVendedor = findViewById(R.id.botaoEntrar);
 
     }
 
     /**
-     *
-
-    botaoEntrar.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }}
+     * Método que confere se os dados enviados são certos quanto ao dados de login
+     * @param
      */
+    private void logarUsuario(View view){
+        String email = campoEmail.getText().toString();
+        String senha = campoSenha.getText().toString();
+
+        if(!email.isEmpty()){
+
+            Usuario usuario = new Usuario();
+            usuario.setEmail(email);
+            usuario.setSenha(senha);
+
+            logar(usuario);
+
+            if(!senha.isEmpty()){
+
+            }else {
+                Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }else{
+            Toast.makeText(this, "Preencha o email", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    /**
+     * Método que faz o login do usuário com o email e a senha
+     * @param usuario
+     */
+    private void logar(Usuario usuario) {
+        autenticacao.signInWithEmailAndPassword(
+                usuario.getEmail(), usuario.getSenha()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    login();
+                }else {
+                    String execao ="";
+
+                    try {
+                        throw task.getException();
+                    }catch(FirebaseAuthInvalidUserException e){
+
+                        execao = "Usuário não cadastrado";
+                    }catch (FirebaseAuthInvalidCredentialsException e){
+                        execao = "Email ou senha incorretos";
+                    }catch (Exception e){
+                        execao = "Erro ao logar" + e.getMessage();
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(VendedorActivity.this, execao, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
 
 
 }

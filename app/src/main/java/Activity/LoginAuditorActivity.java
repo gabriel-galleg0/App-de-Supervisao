@@ -30,9 +30,6 @@ import com.example.appjava.R;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
-
-
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 
@@ -93,14 +90,21 @@ public class LoginAuditorActivity extends AppCompatActivity {
         botaoCameraLimpeza = findViewById(R.id.botaoCameraLimpeza);
 
 
+        /**
+         * Adicionei "dadosLojaJson" caso no futuro seja necessário pegar os dados da loja
+         */
+
         Intent intent = getIntent();
         if (intent != null) {
             nomeLoja= intent.getStringExtra("nome_loja");
             String dadosLojaJson = intent.getStringExtra("dados_loja");
-            // Use os detalhes da loja conforme necessário
+
         }
 
 
+        /**
+         * Botão que salva as imagens
+         */
         botaoEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +112,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         });
 
-
+/**
+ * Botão salvar Invasão que fecha o ImageView e o botão camera
+ */
         salvarInvasao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +137,10 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Botão salvar Manutenção que fecha o ImageView e o botão camera
+         */
+
         salvarManutencao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +159,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Botão salvar Limpeza que fecha o ImageView e o botão camera
+         */
         salvarLimpeza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +213,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
         /**
          * Listener do checkBox do formulário de manutenção
-         */
+         * */
         checkBoxManutencao.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 salvarManutencao.setVisibility(View.VISIBLE);
@@ -223,6 +236,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         });
 
+        /**
+        * Listener do checkBox do formulário de limpeza
+        */
 
         checkBoxLimpeza.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -290,6 +306,10 @@ public class LoginAuditorActivity extends AppCompatActivity {
         botaoCameraManutencao.setOnClickListener(view -> takePicture(cameraLauncherManutencao));
     }
 
+    /**
+     * Inicia a activity para tirar foto de Limpeza
+     */
+
     private void inicializarCameraLimpeza() {
         cameraLauncherLimpeza = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -308,6 +328,10 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * Chama a camera para tirar foto
+     */
     private void takePicture(ActivityResultLauncher<Intent> launcher) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -328,7 +352,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
      * Move para baixo após clicar no checkbox de invasão
      */
     private void moveViewsDown() {
-        // Move os itens para baixo
+
         float spaceBelowCheckbox = getResources().getDimension(R.dimen.espaco_imagem);
         float espacoCamera = getResources().getDimension(R.dimen.espaco_camera);
         float spaceBelowCheckbox2 = getResources().getDimension(R.dimen.espaco_imagem2);
@@ -452,14 +476,14 @@ public class LoginAuditorActivity extends AppCompatActivity {
      * Move para cima após clicar novamente no checkbox de invasão
      */
     private void moveViewsUp() {
-        // Move os itens de volta para a posição original
+
         float defaultTopMargin2 = getResources().getDimension(R.dimen.default_top_margin4);
         float defaultTopMargin = getResources().getDimension(R.dimen.default_top_margin3);
         float espacoCamera = getResources().getDimension(R.dimen.espaco_camera);
         float espacoFormularios = getResources().getDimension(R.dimen.espacoFormularios);
         float espacoFormulariosLimpeza = getResources().getDimension(R.dimen.espacoFormulariosLimpeza);
 
-        // Ajusta a margem superior dos outros itens de volta para a posição original
+
         ConstraintLayout.LayoutParams salvarI = (ConstraintLayout.LayoutParams) findViewById(R.id.salvarInvasao).getLayoutParams();
         salvarI.topMargin -= espacoCamera;
         findViewById(R.id.salvarInvasao).setLayoutParams(salvarI);
@@ -489,51 +513,68 @@ public class LoginAuditorActivity extends AppCompatActivity {
         findViewById(R.id.botaoCamera).setLayoutParams(layoutParams6);
     }
 
+
+    /**
+     * Salva as imagens no Firebase Storage
+     * @param nomeLoja
+     */
     private void salvarImagens(String nomeLoja) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://appjava1-2968b.appspot.com");
 
-        // Verifique se a imagem de invasão está presente e envie para o Firebase
+        /**
+         * Verifica se tem alguma imagem no ImageView, nesse caso de Invasão, e encaminha para o FireBaseStorage
+         */
         if (imageView.getDrawable() != null) {
             Drawable drawable = imageView.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 salvarImagemNoFirebase(bitmap, "Invasao", nomeLoja, storageRef);
             } else {
-                // Lide com o caso em que o Drawable não é um BitmapDrawable
+                //Não sei como fazer um método para tratar o erro caso o drawble não esteja em bitmap
             }
         }
 
-        // Verifique se a imagem de manutenção está presente e envie para o Firebase
+        /**
+         * Verifica se existe imagem no ImageView de Manutenção, encaminha para o FireBaseStorage
+         */
         if (imageViewManutencao.getDrawable() != null) {
             Drawable drawable = imageViewManutencao.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 salvarImagemNoFirebase(bitmap, "Manutencao", nomeLoja, storageRef);
             } else {
-                // Lide com o caso em que o Drawable não é um BitmapDrawable
+              //Mesma coisa que no método anterior
             }
         }
 
-        // Verifique se a imagem de limpeza está presente e envie para o Firebase
+        /**
+         * Verifica se tem imagem no ImageView de Limpeza agora, encaminha para o FireBaseStorage
+         */
         if (fotoTiradaLimpeza.getDrawable() != null) {
             Drawable drawable = fotoTiradaLimpeza.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "limpeza", nomeLoja, storageRef);
+                salvarImagemNoFirebase(bitmap, "Limpeza", nomeLoja, storageRef);
             } else {
-                // Lide com o caso em que o Drawable não é um BitmapDrawable
+                //Continuo sem saber como fazer
             }
         }
     }
 
-
+    /**
+     * Salva a imagem no Firebase Storage
+     * @param bitmap
+     * @param tipo
+     * @param nomeLoja
+     * @param storageRef
+     */
     private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, String nomeLoja, StorageReference storageRef) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        String path = "imagensProblema/" + tipo + "_" + "-" + nomeLoja + "_" + System.currentTimeMillis() + ".jpg";
+        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + System.currentTimeMillis() + ".jpg";
         StorageReference imageref = storageRef.child(path);
 
         UploadTask uploadTask = imageref.putBytes(data);
