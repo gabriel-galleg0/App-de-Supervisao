@@ -46,6 +46,10 @@ public class VendedorActivity extends AppCompatActivity {
         autenticacao = ConfigDb.autenticacao();
 
         inicializar();
+
+        /**
+         * Listenner do botão para logar
+         */
         botaoEntrarVendedor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,12 +58,18 @@ public class VendedorActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Método para inicializar os compontentes
+     */
     private void inicializar() {
         campoEmail = findViewById(R.id.email);
         campoSenha = findViewById(R.id.Senha);
         botaoEntrarVendedor = findViewById(R.id.botaoEntrarVendedor);
     }
+
+    /**
+     * Método que altera de tela quando o login for feito com sucessoq
+     */
     public void login() {
         Intent intent = new Intent(this, SelecionarLojasVendedorActivity.class);
         startActivity(intent);
@@ -93,10 +103,16 @@ public class VendedorActivity extends AppCompatActivity {
 
             if(!senha.isEmpty()){
 
+                /**
+                 * Tratamento de erro, esse verifica se a senha está vazia ou não
+                 */
             }else {
                 Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
 
             }
+            /**
+             * Tratamento de erro, esse verifica se o email está vazio ou não
+             */
 
         }else{
             Toast.makeText(this, "Preencha o email", Toast.LENGTH_SHORT).show();

@@ -42,7 +42,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 
 public class LoginAuditorActivity extends AppCompatActivity {
-    private Bitmap imageBitmap;
     private String nomeLoja;
     private FloatingActionButton botaoCameraManutencao;
     private ImageView imageView;
@@ -61,10 +60,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
     private Button salvarLimpeza;
     private ImageView fotoTiradaLimpeza;
     private FloatingActionButton botaoCameraLimpeza;
-
-    private Uri uriLimpeza;
-    private Uri uriManutencao;
-    private Uri uriInvasao;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     @Override
@@ -549,7 +544,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
         }
 
         /**
-         * Verifica se tem imagem no ImageView de Limpeza agora, encaminha para o FireBaseStorage
+         * Verifica se tem imagem no ImageView de Limpeza, encaminha para o FireBaseStorage
          */
         if (fotoTiradaLimpeza.getDrawable() != null) {
             Drawable drawable = fotoTiradaLimpeza.getDrawable();

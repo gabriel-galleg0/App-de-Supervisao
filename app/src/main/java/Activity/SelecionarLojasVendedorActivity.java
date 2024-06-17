@@ -19,10 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,6 +85,9 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRegiao.setAdapter(adapter);
 
+        /**
+         * Listener para quando o usuário selecionar uma região
+         */
         spinnerRegiao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -110,6 +110,9 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
         String path = "Lojas/" + regiao + "/loja1.json";
         StorageReference storageRef = storage.getReference().child(path);
 
+        /**
+         * Faz o download do JSON usando o storageRef
+         */
         storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
             String jsonString = new String(bytes);
 
@@ -125,6 +128,9 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerLojas.setAdapter(adapter);
 
+                /**
+                 * Listenner do spinner de lojas para quando o usuário selecionar uma loja
+                 */
                 spinnerLojas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

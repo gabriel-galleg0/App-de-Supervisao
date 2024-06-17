@@ -1,29 +1,22 @@
 package Activity;
 
-import static android.content.Intent.getIntent;
 
+
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.appjava.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
@@ -38,8 +31,10 @@ public class VendedorAcoes extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private List<ImageItem> imageItems = new ArrayList<>();
-    private static final int MAX_IMAGES_TO_DISPLAY = 3;
     private String nomeLojaSelecionada = "";
+    private ActivityResultLauncher<Intent> cameraLauncher;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +44,23 @@ public class VendedorAcoes extends AppCompatActivity {
         FirebaseApp.initializeApp(VendedorAcoes.this);
         TextView nomePdv = findViewById(R.id.nomePdv);
 
+        /**
+         * inicizlador das variáveis
+         */
         botaoFormulario = findViewById(R.id.botaoEnviarVendedor);
         recyclerView = findViewById(R.id.rv_acoes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyAdapter(imageItems);
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+
+            } else {
+                Toast.makeText(this, "Cancelado ou falha ao tirar foto", Toast.LENGTH_SHORT).show();
+            }
+        });
+        adapter = new MyAdapter(imageItems, this, cameraLauncher);
         recyclerView.setAdapter(adapter);
+
 
         if (getIntent().hasExtra("nome_loja")) {
             nomeLojaSelecionada = getIntent().getStringExtra("nome_loja");
@@ -77,5 +84,18 @@ public class VendedorAcoes extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             Toast.makeText(VendedorAcoes.this, "Erro ao listar imagens: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void initializeCameraLauncher() {
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+
+                    } else {
+                        Toast.makeText(VendedorAcoes.this, "Falha ao capturar a imagem.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

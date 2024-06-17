@@ -29,6 +29,12 @@ import java.io.InputStream;
 @GlideModule
 public class MyAppGlideModule extends AppGlideModule {
 
+    /**
+     *
+     * @param context An Application {@link android.content.Context}.
+     * @param glide The Glide singleton that is in the process of being initialized.
+     * @param registry An {@link com.bumptech.glide.Registry} to use to register components.
+     */
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
         // Register your ModelLoader here for StorageReference to InputStream

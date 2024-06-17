@@ -36,16 +36,25 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleciona_auditor);
 
-        // Configuração para o Toolbar aparecer na tela
+        /**
+         * Toolbar
+         */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        /**
+         * identificação dos elementos da tela
+         */
         spinnerLojas = findViewById(R.id.spinner_lojas);
         spinnerRegiao = findViewById(R.id.spinner_regiao);
         btnSelecionarRegiao = findViewById(R.id.botaoRegiao);
 
         loadRegioes();
 
+        /**
+         * Listener do botão para selecionar uma região
+         */
         btnSelecionarRegiao.setOnClickListener(v -> {
             if (selectedRegiao != null) {
                 loadJSONData(selectedRegiao);
@@ -55,7 +64,9 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         });
     }
 
-    // Método para carregar as regiões disponíveis
+    /**
+     * Método para carregar as regiões do Spinner
+     */
     private void loadRegioes() {
         List<String> regioes = new ArrayList<>();
         regioes.add("Abrao");
@@ -68,6 +79,9 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRegiao.setAdapter(adapter);
 
+        /**
+         * Listener do Spinner para selecionar uma região
+         */
         spinnerRegiao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -81,7 +95,10 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         });
     }
 
-    // Método para carregar os dados do JSON da loja com base na região selecionada
+    /**
+     * Método para carregar os dados do JSON com base na região que foi selecionada
+     * @param regiao
+     */
     private void loadJSONData(String regiao) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         String path = "Lojas/" + regiao + "/loja1.json";
@@ -102,6 +119,9 @@ public class SelecionarLojasActivity extends AppCompatActivity {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerLojas.setAdapter(adapter);
 
+                /**
+                 * Listener do Spinner para selecionar uma loja
+                 */
                 spinnerLojas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -126,7 +146,10 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         });
     }
 
-    // Método para navegar para a próxima tela
+    /**
+     * Método para trocar de tela
+     * @param view
+     */
     public void proximaTela(View view) {
         if (selectedLojaObject != null) {
             Intent intent = new Intent(SelecionarLojasActivity.this, LoginAuditorActivity.class);

@@ -59,11 +59,18 @@ public class AuditorActivity extends AppCompatActivity {
 
                 }
         );}
+
+    /**
+     * Método responsável por navegar para a tela de seleção de lojas
+     */
     public void login() {
         Intent intent = new Intent(this, SelecionarLojasActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Método responsável por inicializar os componentes da tela
+     */
     private void incicializar(){
         campoEmail = findViewById(R.id.email);
         campoSenha = findViewById(R.id.Senha);
@@ -71,6 +78,10 @@ public class AuditorActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Método responsável por realizar o login do usuário
+     * @param view
+     */
     private void logarUsuario(View view){
         String email = campoEmail.getText().toString();
         String senha = campoSenha.getText().toString();
@@ -96,6 +107,10 @@ public class AuditorActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Método responsável por realizar o login do usuário no Firebase
+     * @param usuario
+     */
     private void logar(Usuario usuario) {
         autenticacao.signInWithEmailAndPassword(
                 usuario.getEmail(), usuario.getSenha()
@@ -122,8 +137,5 @@ public class AuditorActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-
 }
