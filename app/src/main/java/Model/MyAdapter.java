@@ -1,14 +1,19 @@
 package Model;
 
+
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.appjava.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -30,6 +36,7 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
+    FirebaseAuth autenticacao;
     private List<ImageItem> items;
     private Context context;
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -90,12 +97,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
     private void ampliarImagem(ImageView imageView){
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         ImageView imageViewDialog = new ImageView(context);
+
         imageViewDialog.setImageBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+        imageViewDialog.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        imageViewDialog.setAdjustViewBounds(true);
+
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point screenSize = new Point();
+        display.getSize(screenSize);
+        int width = (int) (screenSize.x * 0.9); // 90% da largura da tela
+        int height = (int) (screenSize.y * 0.9); // 90% da altura da tela
+
+        // Define o ImageView na caixa de diálogo e define seu tamanho
         builder.setView(imageViewDialog);
-        builder.show();
+
+        // Cria e exibe a caixa de diálogo
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -132,8 +153,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private void uploadImageToFirebase(Bitmap imageBitmap, ImageItem imageItem) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia() + ".jpg");
 
+        String uid = FirebaseAuth.getInstance().getUid();
+        String nomeImagem = uid +"_"+ System.currentTimeMillis();
+        StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia()+ "_" +nomeImagem+ ".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
