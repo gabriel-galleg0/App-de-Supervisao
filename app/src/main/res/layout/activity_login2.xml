@@ -12,7 +12,7 @@
     tools:context="Activity.LoginAuditorActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/principal"
+        android:id="@+id/principal9"
         android:layout_width="match_parent"
         android:layout_height="690dp">
 

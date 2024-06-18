@@ -7,11 +7,6 @@
     android:background="@drawable/background_novo"
     tools:context="Activity.SelecionarLojasActivity">
 
-    <!-- Toolbar para exibir o menu -->
-
-    <!-- Spinner para exibir as opções do JSON -->
-
-    <!-- Conteúdo da activity -->
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/background_novo"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.DayNight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

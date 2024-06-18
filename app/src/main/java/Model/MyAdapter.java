@@ -1,5 +1,6 @@
 package Model;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,12 +33,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<ImageItem> items;
     private Context context;
     private ActivityResultLauncher<Intent> cameraLauncher;
-    private ViewHolder ultimoHolder;
+    private ImageView ultimoHolder; // Referência ao último ImageView onde a imagem foi capturada
 
     public MyAdapter(List<ImageItem> items, Context context, ActivityResultLauncher<Intent> cameraLauncher) {
         this.items = items;
         this.context = context;
         this.cameraLauncher = cameraLauncher;
+    }
+
+    // Método para obter o último ImageView onde a imagem foi capturada
+    public ImageView getUltimoHolder() {
+        return ultimoHolder;
     }
 
     @NonNull
@@ -54,25 +60,42 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         if (imageItem != null) {
             holder.pendenciaTextView.setText(imageItem.getPendencia());
 
+            // Carregar imagem do Firebase se existir
             StorageReference storageRef = imageItem.getStorageReference();
             if (storageRef != null && holder.itemView.getContext() != null) {
                 Glide.with(holder.itemView.getContext()).load(storageRef).into(holder.imageView);
             }
         }
 
+        // Configuração do botão para tirar foto
         holder.botaoCamera.setOnClickListener(v -> {
-            ultimoHolder = holder;
+            ultimoHolder = holder.recNova; // Guarda a referência ao recNova deste ViewHolder
             tirarFoto();
         });
 
+        // Configuração do botão para salvar imagem no Firebase
         holder.botaoSalvar.setOnClickListener(v -> {
-            if (holder.fotoNova.getDrawable() != null) {
-                Bitmap bitmap = ((BitmapDrawable) holder.fotoNova.getDrawable()).getBitmap();
+            if (ultimoHolder != null) {
+                Bitmap bitmap = ((BitmapDrawable) ultimoHolder.getDrawable()).getBitmap();
                 uploadImageToFirebase(bitmap, imageItem);
             } else {
-                Toast.makeText(context, "Nenhuma imagem selecionada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Nenhuma imagem capturada", Toast.LENGTH_SHORT).show();
             }
         });
+
+        holder.imageView.setOnClickListener(v -> {
+            ampliarImagem(holder.imageView);
+        });
+    }
+
+
+    private void ampliarImagem(ImageView imageView){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ImageView imageViewDialog = new ImageView(context);
+        imageViewDialog.setImageBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+        builder.setView(imageViewDialog);
+        builder.show();
     }
 
     @Override
@@ -81,19 +104,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView pendenciaTextView;
         ImageView imageView;
         FloatingActionButton botaoCamera;
         Button botaoSalvar;
-        ImageView fotoNova;
+        ImageView recNova;
+        TextView pendenciaTextView; // Adicionar TextView para pendencia
 
         public ViewHolder(View itemView) {
             super(itemView);
-            pendenciaTextView = itemView.findViewById(R.id.recPendendias);
             imageView = itemView.findViewById(R.id.recAntesFoto);
             botaoCamera = itemView.findViewById(R.id.recFoto);
             botaoSalvar = itemView.findViewById(R.id.recSalvar);
-            fotoNova = itemView.findViewById(R.id.recNova);
+            recNova = itemView.findViewById(R.id.recNova);
+            pendenciaTextView = itemView.findViewById(R.id.recPendendias); // Inicializar pendenciaTextView
         }
     }
 
@@ -109,7 +132,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private void uploadImageToFirebase(Bitmap imageBitmap, ImageItem imageItem) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child(imageItem.getNomePdv() + "_" + imageItem.getPendencia() + ".jpg");
+        StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia() + ".jpg");
+
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

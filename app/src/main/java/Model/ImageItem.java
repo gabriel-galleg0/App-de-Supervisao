@@ -1,9 +1,12 @@
 package Model;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.storage.StorageReference;
 
 public class ImageItem {
 
+    private Bitmap capturedImage;
     private String nomePdv;
     private String pendencia;
     private StorageReference storageReference;
@@ -36,5 +39,13 @@ public class ImageItem {
 
     public void setStorageReference(StorageReference storageReference) {
         this.storageReference = storageReference;
+    }
+
+    public void setCapturedImage(Bitmap capturedImage){
+        this.capturedImage = capturedImage;
+    }
+
+    public Bitmap getCapturedImage(){
+        return capturedImage;
     }
 }

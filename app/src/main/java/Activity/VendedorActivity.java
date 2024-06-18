@@ -46,7 +46,6 @@ public class VendedorActivity extends AppCompatActivity {
         autenticacao = ConfigDb.autenticacao();
 
         inicializar();
-
         /**
          * Listenner do botão para logar
          */
@@ -76,16 +75,6 @@ public class VendedorActivity extends AppCompatActivity {
     }
 
     /**
-     * Inicializador de compontentes
-     */
-    private void incicializar(){
-        campoEmail = findViewById(R.id.email);
-        campoSenha = findViewById(R.id.Senha);
-        botaoEntrarVendedor = findViewById(R.id.botaoEntrar);
-
-    }
-
-    /**
      * Método que confere se os dados enviados são certos quanto ao dados de login
      * @param
      */
@@ -103,21 +92,19 @@ public class VendedorActivity extends AppCompatActivity {
 
             if(!senha.isEmpty()){
 
-                /**
+      /**
                  * Tratamento de erro, esse verifica se a senha está vazia ou não
                  */
             }else {
                 Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
 
             }
-            /**
-             * Tratamento de erro, esse verifica se o email está vazio ou não
-             */
-
+    /**
+    * Tratamento de erro, esse verifica se o email está vazio ou não
+    * */
         }else{
             Toast.makeText(this, "Preencha o email", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
@@ -150,9 +137,5 @@ public class VendedorActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-
-
 }

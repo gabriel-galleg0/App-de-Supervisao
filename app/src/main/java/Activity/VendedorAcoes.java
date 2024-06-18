@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +23,14 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import Model.ImageItem;
 import Model.MyAdapter;
 
 public class VendedorAcoes extends AppCompatActivity {
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private Button botaoFormulario;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
@@ -39,8 +43,8 @@ public class VendedorAcoes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_vendedor_acoes);
+
         FirebaseApp.initializeApp(VendedorAcoes.this);
         TextView nomePdv = findViewById(R.id.nomePdv);
 
@@ -51,13 +55,26 @@ public class VendedorAcoes extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_acoes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                if (data != null && data.getExtras() != null) {
+                    Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
 
+                    // Define a imagem capturada no ImageView recNova do último item clicado no RecyclerView
+                    if (adapter.getUltimoHolder() != null) {
+                        adapter.getUltimoHolder().setImageBitmap(imageBitmap);
+                    } else {
+                        Toast.makeText(this, "Erro: Nenhum item selecionado", Toast.LENGTH_SHORT).show();
+                    }
+                }
             } else {
                 Toast.makeText(this, "Cancelado ou falha ao tirar foto", Toast.LENGTH_SHORT).show();
             }
         });
+
+
         adapter = new MyAdapter(imageItems, this, cameraLauncher);
         recyclerView.setAdapter(adapter);
 
@@ -86,16 +103,4 @@ public class VendedorAcoes extends AppCompatActivity {
         });
     }
 
-    private void initializeCameraLauncher() {
-        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Intent data = result.getData();
-                        Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-
-                    } else {
-                        Toast.makeText(VendedorAcoes.this, "Falha ao capturar a imagem.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 }
