@@ -20,4 +20,29 @@ Já na tela de vendedores o Login é efetuado através do método de autenticaç
 Tendo que digitar o seu número no campo de texto e após isso clicar no botão para verificar o número, com a verificação concluída o usuário receberá um sms com um código de verificação único. Sendo necessário digitar no campo do código de verificação e somente depois disso efetuar o login que irá verificar se o código está correto e somente após isso o usuário terá sua tela alterada.
 <br>
 <h3>Ações</h3>
+<ul>
+  <li>Login </li>
+  <li>Seleção de Região</li>
+  <li>Seleção de Ponto de Venda</li>
+  <li>Exibição de Problemas Encontrados</li>
+  <li>Solução do Problema exibido</li>
+</ul>
+<br>
+
+-Com o login realizado não é necessário realizar o cadastro novamente, somente se o usuário selecionar o botão de sair de sua conta.
+
+-A seleção de região é definida de acordo com quais regiões foram cadastradas no FireBase.
+
+-Para selecionar o ponto de venda o usuário precisa anteriormente ter selecionado a região, pois somente depois de selecionar é liberado quais lojas estão cadastradas nessa região.
+
+-Com o ponto de venda selecionado, os dados carregados com problemas são exibidos em um RecyclerView com a imagem e qual problema foi encontrado no FireBase.
+
+-Após localizar o problema, o usuário solucionará o que aconteceu e reenviará uma foto nova porém dessa vez com o problema solucionado.
+
+
+
+
+
+
+
 
