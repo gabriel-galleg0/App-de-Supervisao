@@ -1,26 +1,37 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 admin.initializeApp();
 
-exports.sendNotificationOnImageUpload = functions.storage.object().onFinalize(async (object) => {
-    const filePath = object.name; // Caminho do arquivo no Firebase Storage
-    const userId = 'usuário_id_a_ser_notificado'; // ID do usuário que você deseja notificar
+exports.sendNotificationOnImageUpload = functions.storage
+    .object()
+    .onFinalize(async (object) => {
+      const userId = "IFXH64ibWTgT67D9PLjEfi6qnYJ2";
+      const db = admin.firestore();
+      const userDoc = await db.collection("users").doc(userId).get();
 
-    // Lógica para determinar se o usuário deve ser notificado, por exemplo, verificar se o usuário tem permissão para visualizar a imagem
+      if (!userDoc.exists) {
+        console.log("Usuário não encontrado!");
+        return;
+      }
 
-    // Se o usuário deve ser notificado, envie a notificação
-    const message = {
-        token: 'token_de_registro_FCM_do_usuario', // Token de registro FCM do usuário
+      const userToken = userDoc.data().fcmToken;
+      if (!userToken) {
+        console.log("Token FCM não encontrado para o usuário!");
+        return;
+      }
+
+      const message = {
+        token: userToken,
         notification: {
-            title: 'Nova imagem adicionada!',
-            body: 'Uma nova imagem foi adicionada ao Firebase Storage.'
-        }
-    };
+          title: "Nova imagem adicionada!",
+          body: "Uma nova imagem foi adicionada ao Firebase Storage.",
+        },
+      };
 
-    try {
+      try {
         await admin.messaging().send(message);
-        console.log('Notification sent successfully!');
-    } catch (error) {
-        console.error('Error sending notification:', error);
-    }
-});
+        console.log("Notificação enviada com sucesso!");
+      } catch (error) {
+        console.error("Erro ao enviar notificação:", error);
+      }
+    });

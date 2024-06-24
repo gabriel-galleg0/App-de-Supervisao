@@ -27,30 +27,31 @@
         tools:targetApi="31">
         <activity
             android:name="Activity.VendedorAcoes"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppJava">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
         </intent-filter>
         </activity>
-
         <activity
             android:name="Activity.SelecionarLojasVendedorActivity"
-            android:exported="false" />
-
+            android:exported="false"
+            android:theme="@style/Theme.AppJava"/>
         <activity
             android:name="Activity.SelecionarLojasActivity"
-            android:exported="true" />
-
+            android:exported="true"
+            android:theme="@style/Theme.AppJava"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name="Activity.VendedorActivity"
-            android:exported="true" />
-
+            android:exported="true"
+            android:theme="@style/Theme.AppJava"/>
         <activity
             android:name="Activity.AuditorActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AppJava" />
-
         <activity
             android:name="Activity.MainActivity"
             android:exported="true">
@@ -60,17 +61,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="Activity.LoginAuditorActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppJava">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="Activity.provider"
@@ -80,10 +80,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
         <meta-data
             android:name="com.google.android.gms.version"
-            android:resource="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_notification" />

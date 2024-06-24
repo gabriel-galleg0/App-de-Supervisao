@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingTop="30dp"
+    android:layout_height="80dp"
+    android:visibility="visible"
+    tools:visibility="visible"
+    android:background="@drawable/searchview_bg"
+    >
+
+    <TextView
+        android:id="@+id/lojaNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:paddingEnd="3dp"
+        android:text="Loja"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+
+</LinearLayout>

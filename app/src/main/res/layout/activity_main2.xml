@@ -11,8 +11,7 @@
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:visibility="visible"
-    tools:context="Activity.AuditorActivity"
-    >
+    tools:context="Activity.AuditorActivity">
 
     <ImageView
         android:id="@+id/logoFactu"
@@ -36,13 +35,10 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:backgroundTint="#FAFAFA"
-
         android:shadowColor="#000000"
         android:text="Auditor"
         android:textAllCaps="false"
-        android:textColor="#000000"
-
-        />
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/entrarVendedor"

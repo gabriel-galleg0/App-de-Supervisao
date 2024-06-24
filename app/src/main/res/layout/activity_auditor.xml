@@ -11,8 +11,7 @@
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:visibility="visible"
-    tools:context="Activity.AuditorActivity"
-    >
+    tools:context="Activity.AuditorActivity">
 
     <ImageView
         android:id="@+id/logoFactu"

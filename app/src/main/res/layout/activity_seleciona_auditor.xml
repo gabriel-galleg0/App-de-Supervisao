@@ -7,87 +7,109 @@
     android:background="@drawable/background_novo"
     tools:context="Activity.SelecionarLojasActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLojas"
+        android:layout_width="367dp"
+        android:layout_height="240dp"
+        android:layout_margin="16dp"
+        app:circularflow_radiusInDP="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.857" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <TextView
+        android:id="@+id/SelecionarRegiao"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/background_novo"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.DayNight"
+        android:layout_height="wrap_content"
+        android:text="Selecione uma Loja"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:title="Selecione uma região" />
+        app:layout_constraintVertical_bias="0.454" />
 
-    <Spinner
-        android:id="@+id/spinner_regiao"
-        android:layout_width="371dp"
-        android:layout_height="24dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRegiao"
+        android:layout_width="404dp"
+        android:layout_height="185dp"
         android:layout_margin="16dp"
-        android:background="@drawable/background_txt_cadastro"
+        app:circularflow_radiusInDP="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154" />
+        app:layout_constraintVertical_bias="0.215"
 
-    <Spinner
-        android:id="@+id/spinner_lojas"
-        android:layout_width="369dp"
-        android:layout_height="24dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/background_txt_cadastro"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.695" />
+        />
 
     <TextView
         android:id="@+id/SelecionarLojas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_novo"
-        android:text="Selecione uma Loja"
+        android:text="Selecione uma Região"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.549" />
+        app:layout_constraintVertical_bias="0.036" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/sair"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="proximaTela"
-        android:text="Selecionar"
+        android:backgroundTint="#FF0000"
+        android:text="Sair"
+        android:textColorLink="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.907"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.897" />
+        app:layout_constraintVertical_bias="0.938"
+        app:rippleColor="#4F0C0C"
+        app:strokeColor="#FF0000" />
 
-    <Button
-        android:id="@+id/botaoRegiao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="proximaTela"
-        android:text="Selecionar"
+    <SearchView
+        android:id="@+id/searchViewRegiao"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:background="@drawable/searchview_bg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar Região"
+        android:theme="@style/AppTheme.SearchView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.408" />
+        app:layout_constraintVertical_bias="0.116" />
+
+    <SearchView
+        android:id="@+id/searchViewLojas"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:background="@drawable/searchview_bg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar Lojas"
+        android:theme="@style/AppTheme.SearchView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

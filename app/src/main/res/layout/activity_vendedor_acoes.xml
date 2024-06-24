@@ -22,25 +22,26 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.991" />
+        app:layout_constraintVertical_bias="0.906" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_acoes"
-        android:layout_width="407dp"
-        android:layout_height="542dp"
+        android:layout_width="408dp"
+        android:layout_height="514dp"
         android:padding="16dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761"
+        app:layout_constraintVertical_bias="0.593"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutContent"
-        android:layout_width="415dp"
-        android:layout_height="152dp"
+        android:layout_width="409dp"
+        android:layout_height="186dp"
         app:layout_constraintBottom_toTopOf="@+id/rv_acoes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -71,10 +72,10 @@
 
         <TextView
             android:id="@+id/nomePdv"
-            android:layout_width="363dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="368dp"
+            android:layout_height="47dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/background_txt_cadastro"
             android:drawablePadding="8dp"
             android:ems="10"
@@ -103,9 +104,10 @@
             android:textSize="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.128" />
+            app:layout_constraintVertical_bias="0.4" />
 
         <CheckBox
             android:id="@+id/checkBox"

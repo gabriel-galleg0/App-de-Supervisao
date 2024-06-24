@@ -20,6 +20,7 @@
         app:layout_constraintStart_toEndOf="@+id/recNova"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.851"
+        app:rippleColor="#3F4B6F"
         tools:visibility="visible" />
 
     <Button
@@ -38,6 +39,7 @@
         app:layout_constraintStart_toStartOf="@+id/recNova"
         app:layout_constraintTop_toBottomOf="@+id/recFoto"
         app:layout_constraintVertical_bias="0.278"
+        app:rippleColor="#7A7676"
         tools:visibility="visible" />
 
     <ImageView

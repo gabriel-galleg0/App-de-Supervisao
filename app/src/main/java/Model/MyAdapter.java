@@ -1,7 +1,5 @@
 package Model;
 
-
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,52 +33,57 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-
-    FirebaseAuth autenticacao;
     private List<ImageItem> items;
     private Context context;
     private ActivityResultLauncher<Intent> cameraLauncher;
-    private ImageView ultimoHolder; // Referência ao último ImageView onde a imagem foi capturada
-
+    private ImageView ultimoHolder;
     public MyAdapter(List<ImageItem> items, Context context, ActivityResultLauncher<Intent> cameraLauncher) {
         this.items = items;
         this.context = context;
         this.cameraLauncher = cameraLauncher;
     }
-
-    // Método para obter o último ImageView onde a imagem foi capturada
+    /**
+     * Método para obter a referencia do ultimo imageView onde foi tirada a foto
+     * @return
+     */
     public ImageView getUltimoHolder() {
         return ultimoHolder;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
     }
-
+    /**
+     *
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ImageItem imageItem = items.get(position);
-
         if (imageItem != null) {
             holder.pendenciaTextView.setText(imageItem.getPendencia());
-
-            // Carregar imagem do Firebase se existir
+            /**
+             * Método para carregar imagens do FireBase Storage
+             */
             StorageReference storageRef = imageItem.getStorageReference();
             if (storageRef != null && holder.itemView.getContext() != null) {
                 Glide.with(holder.itemView.getContext()).load(storageRef).into(holder.imageView);
             }
         }
-
-        // Configuração do botão para tirar foto
+        /**
+         * Listener do botão para tirar fotos
+         */
         holder.botaoCamera.setOnClickListener(v -> {
-            ultimoHolder = holder.recNova; // Guarda a referência ao recNova deste ViewHolder
+            ultimoHolder = holder.recNova; // Guarda a referência ao recNova deste ViewHolder para a imagem ficar salva no ImageView
             tirarFoto();
         });
-
-        // Configuração do botão para salvar imagem no Firebase
+        /**
+         * Listener do botão para salvar as imagens
+         */
         holder.botaoSalvar.setOnClickListener(v -> {
             if (ultimoHolder != null) {
                 Bitmap bitmap = ((BitmapDrawable) ultimoHolder.getDrawable()).getBitmap();
@@ -89,58 +92,72 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Toast.makeText(context, "Nenhuma imagem capturada", Toast.LENGTH_SHORT).show();
             }
         });
-
+        /**
+         * Listener para ampliar as imagens
+         */
         holder.imageView.setOnClickListener(v -> {
             ampliarImagem(holder.imageView);
         });
     }
-
-
+    /**
+     * Método para ampliar as imagens com 90% do tamanho da tela do dispositivo
+     * @param imageView
+     */
     private void ampliarImagem(ImageView imageView){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         ImageView imageViewDialog = new ImageView(context);
-
         imageViewDialog.setImageBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
         imageViewDialog.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageViewDialog.setAdjustViewBounds(true);
-
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point screenSize = new Point();
         display.getSize(screenSize);
-        int width = (int) (screenSize.x * 0.9); // 90% da largura da tela
-        int height = (int) (screenSize.y * 0.9); // 90% da altura da tela
-
-        // Define o ImageView na caixa de diálogo e define seu tamanho
+        int width = (int) (screenSize.x * 0.9);
+        int height = (int) (screenSize.y * 0.9);
+        /**
+         * Define o tamanho da imageView para dentro do AlertDialog
+         */
         builder.setView(imageViewDialog);
-
-        // Cria e exibe a caixa de diálogo
+        /**
+         * Cria uma dialgo com o builder
+         */
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
+    /**
+     * Contagem de itens dentro do firebase para usar no método de itens presentes no viewHolder lá em VendedorAcoes
+     * @return
+     */
     @Override
     public int getItemCount() {
         return items != null ? items.size() : 0;
     }
-
+    /**
+     * ViewHolder para os itens
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         FloatingActionButton botaoCamera;
         Button botaoSalvar;
         ImageView recNova;
-        TextView pendenciaTextView; // Adicionar TextView para pendencia
-
+        TextView pendenciaTextView;
+        /**
+         * Método construtor do ViewHolder
+         * @param itemView
+         */
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.recAntesFoto);
             botaoCamera = itemView.findViewById(R.id.recFoto);
             botaoSalvar = itemView.findViewById(R.id.recSalvar);
             recNova = itemView.findViewById(R.id.recNova);
-            pendenciaTextView = itemView.findViewById(R.id.recPendendias); // Inicializar pendenciaTextView
+            pendenciaTextView = itemView.findViewById(R.id.recPendendias);
         }
     }
-
+    /**
+     * Método para tirar fotos
+     */
     private void tirarFoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
@@ -149,24 +166,27 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             Toast.makeText(context, "Falha ao abrir a câmera", Toast.LENGTH_SHORT).show();
         }
     }
-
+    /**
+     * Método para salvar as imagens no Firebase Storage
+     * @param imageBitmap
+     * @param imageItem
+     */
     private void uploadImageToFirebase(Bitmap imageBitmap, ImageItem imageItem) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-
+        /*
+        Pega o uid do usuário que esta enviando a imagem pro firebase
+         */
         String uid = FirebaseAuth.getInstance().getUid();
         String nomeImagem = uid +"_"+ System.currentTimeMillis();
         StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia()+ "_" +nomeImagem+ ".jpg");
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-
         UploadTask uploadTask = imagesRef.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             imagesRef.getDownloadUrl().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    // Aqui você pode salvar o downloadUri no Firebase Database ou realizar outras ações necessárias
                     Toast.makeText(context, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Falha ao obter o URL de download.", Toast.LENGTH_SHORT).show();

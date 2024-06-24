@@ -61,14 +61,12 @@ public class LoginAuditorActivity extends AppCompatActivity {
     private ImageView fotoTiradaLimpeza;
     private FloatingActionButton botaoCameraLimpeza;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login2);
         FirebaseApp.initializeApp(this);
-
 
         fotoTiradaLimpeza = findViewById(R.id.fotoTiradaLimpeza);
         salvarLimpeza = findViewById(R.id.salvarLimpeza);
@@ -83,20 +81,14 @@ public class LoginAuditorActivity extends AppCompatActivity {
         checkBoxLimpeza = findViewById(R.id.checkBoxLimpeza);
         botaoEnviar = findViewById(R.id.botaoEnviar);
         botaoCameraLimpeza = findViewById(R.id.botaoCameraLimpeza);
-
-
         /**
          * Adicionei "dadosLojaJson" caso no futuro seja necessário pegar os dados da loja
          */
-
         Intent intent = getIntent();
         if (intent != null) {
             nomeLoja= intent.getStringExtra("nome_loja");
             String dadosLojaJson = intent.getStringExtra("dados_loja");
-
         }
-
-
         /**
          * Botão que salva as imagens
          */
@@ -106,7 +98,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 salvarImagens(nomeLoja);
             }
         });
-
 /**
  * Botão salvar Invasão que fecha o ImageView e o botão camera
  */
@@ -114,12 +105,8 @@ public class LoginAuditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 imageView.setVisibility(View.GONE);
                 captureButton.setVisibility(View.GONE);
-
-
 
                 ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) imageView.getLayoutParams();
                 layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.default_top_margin);
@@ -128,18 +115,14 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
                 checkBoxInvasao.setChecked(true);
                 salvarInvasao.setVisibility(View.GONE);
-
             }
         });
-
         /**
          * Botão salvar Manutenção que fecha o ImageView e o botão camera
          */
-
         salvarManutencao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 imageViewManutencao.setVisibility(View.GONE);
                 botaoCameraManutencao.setVisibility(View.GONE);
 
@@ -150,28 +133,20 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
                 checkBoxManutencao.setChecked(true);
                 salvarManutencao.setVisibility(View.GONE);
-
             }
         });
-
         /**
          * Botão salvar Limpeza que fecha o ImageView e o botão camera
          */
         salvarLimpeza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 fotoTiradaLimpeza.setVisibility(View.GONE);
                 botaoCameraLimpeza.setVisibility(View.GONE);
-
                 moveViewUpLimpeza();
-
                 salvarLimpeza.setVisibility(View.GONE);
-
             }
         });
-
-
 /**
  * Listener do checkBox do formulário de invasão
  */
@@ -194,7 +169,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 captureButton.setVisibility(View.GONE);
             }
         });
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
@@ -204,8 +178,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
             initializeCameraManutencao();
             inicializarCameraLimpeza();
         }
-
-
         /**
          * Listener do checkBox do formulário de manutenção
          * */
@@ -219,7 +191,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.espaco_manutencaoimg);
                 imageViewManutencao.setLayoutParams(layoutParams);
                 moveDownManutencao();
-
             } else {
                 ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) imageViewManutencao.getLayoutParams();
                 layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.espaco_manutencaoimg);
@@ -230,11 +201,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 botaoCameraManutencao.setVisibility(View.GONE);
             }
         });
-
         /**
         * Listener do checkBox do formulário de limpeza
         */
-
         checkBoxLimpeza.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 salvarLimpeza.setVisibility(View.VISIBLE);
@@ -245,7 +214,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.espaco_manutencaoimg);
                 fotoTiradaLimpeza.setLayoutParams(layoutParams);
                 moveViewsDownLimpeza();
-
             } else {
                 ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) fotoTiradaLimpeza.getLayoutParams();
                 layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.espaco_manutencaoimg);
@@ -257,8 +225,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         });
     }
-
-
     /**
      * Inicializador da camera para o botão da camera do formulário de invasão
      */
@@ -276,10 +242,8 @@ public class LoginAuditorActivity extends AppCompatActivity {
                         }
                     }
                 });
-
         captureButton.setOnClickListener(view -> takePicture(cameraLauncherInvasao));
     }
-
     /**
      * Inicializa a Camera para tirar foto da manutenção
      */
@@ -297,14 +261,11 @@ public class LoginAuditorActivity extends AppCompatActivity {
                         }
                     }
                 });
-
         botaoCameraManutencao.setOnClickListener(view -> takePicture(cameraLauncherManutencao));
     }
-
     /**
      * Inicia a activity para tirar foto de Limpeza
      */
-
     private void inicializarCameraLimpeza() {
         cameraLauncherLimpeza = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -320,9 +281,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
                     }
                 });
         botaoCameraLimpeza.setOnClickListener(view -> takePicture(cameraLauncherLimpeza));
-
     }
-
     /**
      *
      * Chama a camera para tirar foto
@@ -334,15 +293,12 @@ public class LoginAuditorActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Nenhum aplicativo de câmera disponível.", Toast.LENGTH_SHORT).show();
         }
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.principal), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.principal9), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
-
-
     /**
      * Move para baixo após clicar no checkbox de invasão
      */
@@ -350,7 +306,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
         float spaceBelowCheckbox = getResources().getDimension(R.dimen.espaco_imagem);
         float espacoCamera = getResources().getDimension(R.dimen.espaco_camera);
-        float spaceBelowCheckbox2 = getResources().getDimension(R.dimen.espaco_imagem2);
         float espacoFormularios = getResources().getDimension(R.dimen.espacoFormularios);
         float espacoFormulariosLimpeza = getResources().getDimension(R.dimen.espacoFormulariosLimpeza);
 
@@ -382,11 +337,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
         layoutParams6.topMargin += espacoCamera;
         findViewById(R.id.botaoCamera).setLayoutParams(layoutParams6);
     }
-
     /**
      * Move para baixo após clicar no checkbox de manutenção
      */
-
     private void moveDownManutencao() {
         float espacoManutencao = getResources().getDimension(R.dimen.espaco_manutencao);
         float espacoCamera = getResources().getDimension(R.dimen.espaco_camera_manutencao);
@@ -412,20 +365,16 @@ public class LoginAuditorActivity extends AppCompatActivity {
         cameraManutencao.topMargin += espacoCamera;
         findViewById(R.id.botaoCameraManu).setLayoutParams(cameraManutencao);
     }
-
     /**
      * Move para baixo após clicar no checkbox de limpeza
      */
-
     private void moveViewsDownLimpeza() {
         float espacoLimpeza = getResources().getDimension(R.dimen.espacoBotaoenviar);
 
         ConstraintLayout.LayoutParams botaoEnviar = (ConstraintLayout.LayoutParams) findViewById(R.id.botaoEnviar).getLayoutParams();
         botaoEnviar.topMargin += espacoLimpeza;
         findViewById(R.id.botaoEnviar).setLayoutParams(botaoEnviar);
-
     }
-
     /**
      * Sobe o botão enviar Formulário
      */
@@ -436,7 +385,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
         botaoEnviar.topMargin -= espacoLimpeza;
         findViewById(R.id.botaoEnviar).setLayoutParams(botaoEnviar);
     }
-
     /**
      * Move para cima após clicar no checkbox de manutenção novamente
      */
@@ -444,7 +392,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
         float espacoManutencao = getResources().getDimension(R.dimen.espaco_manutencao);
         float espacoCamera = getResources().getDimension(R.dimen.espaco_camera_manutencao);
         float espacoLimpeza = getResources().getDimension(R.dimen.espaco_limpeza);
-
 
         ConstraintLayout.LayoutParams salvarM = (ConstraintLayout.LayoutParams) findViewById(R.id.salvarManutencao).getLayoutParams();
         salvarM.topMargin -= espacoCamera;
@@ -466,18 +413,14 @@ public class LoginAuditorActivity extends AppCompatActivity {
         cameraManutencao.topMargin -= espacoCamera;
         findViewById(R.id.botaoCameraManu).setLayoutParams(cameraManutencao);
     }
-
     /**
      * Move para cima após clicar novamente no checkbox de invasão
      */
     private void moveViewsUp() {
-
-        float defaultTopMargin2 = getResources().getDimension(R.dimen.default_top_margin4);
         float defaultTopMargin = getResources().getDimension(R.dimen.default_top_margin3);
         float espacoCamera = getResources().getDimension(R.dimen.espaco_camera);
         float espacoFormularios = getResources().getDimension(R.dimen.espacoFormularios);
         float espacoFormulariosLimpeza = getResources().getDimension(R.dimen.espacoFormulariosLimpeza);
-
 
         ConstraintLayout.LayoutParams salvarI = (ConstraintLayout.LayoutParams) findViewById(R.id.salvarInvasao).getLayoutParams();
         salvarI.topMargin -= espacoCamera;
@@ -507,8 +450,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
         layoutParams6.topMargin -= espacoCamera;
         findViewById(R.id.botaoCamera).setLayoutParams(layoutParams6);
     }
-
-
     /**
      * Salva as imagens no Firebase Storage
      * @param nomeLoja
@@ -516,7 +457,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
     private void salvarImagens(String nomeLoja) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://appjava1-2968b.appspot.com");
-
         /**
          * Verifica se tem alguma imagem no ImageView, nesse caso de Invasão, e encaminha para o FireBaseStorage
          */
@@ -527,9 +467,10 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 salvarImagemNoFirebase(bitmap, "Invasao", nomeLoja, storageRef);
             } else {
                 //Não sei como fazer um método para tratar o erro caso o drawble não esteja em bitmap
+                //Aqui seria legal implementar um tratamento de erro né
+                //Mas continuo sem saber como fazer ;D
             }
         }
-
         /**
          * Verifica se existe imagem no ImageView de Manutenção, encaminha para o FireBaseStorage
          */
@@ -542,7 +483,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
               //Mesma coisa que no método anterior
             }
         }
-
         /**
          * Verifica se tem imagem no ImageView de Limpeza, encaminha para o FireBaseStorage
          */
@@ -556,7 +496,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         }
     }
-
     /**
      * Salva a imagem no Firebase Storage
      * @param bitmap
@@ -568,10 +507,8 @@ public class LoginAuditorActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-
         String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + System.currentTimeMillis() + ".jpg";
         StorageReference imageref = storageRef.child(path);
-
         UploadTask uploadTask = imageref.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> imageref.getDownloadUrl().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -583,6 +520,4 @@ public class LoginAuditorActivity extends AppCompatActivity {
             }
         })).addOnFailureListener(e -> Toast.makeText(LoginAuditorActivity.this, "Falha ao fazer o upload da imagem.", Toast.LENGTH_SHORT).show());
     }
-
-
 }

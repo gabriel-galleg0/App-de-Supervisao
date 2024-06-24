@@ -11,8 +11,7 @@
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:visibility="visible"
-    tools:context="Activity.VendedorActivity"
-    >
+    tools:context="Activity.VendedorActivity">
 
     <ImageView
         android:id="@+id/logoFactu"
@@ -30,35 +29,50 @@
         tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:id="@+id/telefone"
+        android:layout_width="326dp"
+        android:layout_height="34dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/background_txt_cadastro"
         android:drawableStart="@drawable/baseline_person_24"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Login"
-        android:inputType="textEmailAddress"
+        android:hint="Digite seu Número"
+        android:inputType="phone"
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF" />
 
-    <EditText
-        android:id="@+id/Senha"
+    <Button
+        android:id="@+id/botaoVerificacaoTel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:backgroundTint="#FAFAFA"
+        android:shadowColor="#000000"
+        android:text="Verificar"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        app:rippleColor="#5F5B63"
+
+        />
+
+    <EditText
+        android:id="@+id/verificacao"
+        android:layout_width="336dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="13dp"
         android:background="@drawable/background_txt_cadastro"
         android:drawableStart="@drawable/baseline_lock_24"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Senha"
+        android:hint="Digite o Código de Verificação"
         android:inputType="textPassword"
         android:padding="8dp"
         android:textAlignment="textStart"
@@ -73,10 +87,10 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:backgroundTint="#FAFAFA"
-        android:onClick="logarUsuario"
         android:shadowColor="#000000"
         android:text="Entrar"
         android:textAllCaps="false"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        app:rippleColor="#5F5B63" />
 
 </LinearLayout>

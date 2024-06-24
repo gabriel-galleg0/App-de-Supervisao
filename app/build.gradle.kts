@@ -2,26 +2,21 @@ plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
     alias(libs.plugins.jetbrains.kotlin.android)
-
 }
-
 android {
     namespace = "com.example.appjava"
     compileSdk = 34
-
     defaultConfig {
         applicationId = "com.example.appjava"
         minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -49,11 +44,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
-
 dependencies {
-
 
     implementation("com.google.android.gms:play-services-base:18.3.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")

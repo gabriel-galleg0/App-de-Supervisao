@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.SearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Defina a cor do texto -->
+        <item name="android:textColor">@android:color/white</item>
+        <!-- Defina a cor do hint (texto de sugestão) se necessário -->
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
+
+</resources>
