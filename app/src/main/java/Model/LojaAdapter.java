@@ -13,16 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appjava.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class LojaAdapter extends RecyclerView.Adapter<LojaAdapter.LojaViewHolder> implements Filterable {
 
     private Context context;
-    private List<String> lojaList;
-    private List<String> lojaListFull; // Lista completa para backup durante a filtragem
+    private List<JSONObject> lojaList;
+    private List<JSONObject> lojaListFull; // Lista completa para backup durante a filtragem
 
-    public LojaAdapter(Context context, List<String> lojaList) {
+    public LojaAdapter(Context context, List<JSONObject> lojaList) {
         this.context = context;
         this.lojaList = lojaList;
         this.lojaListFull = new ArrayList<>(lojaList); // Cópia da lista original
@@ -37,7 +40,7 @@ public class LojaAdapter extends RecyclerView.Adapter<LojaAdapter.LojaViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull LojaViewHolder holder, int position) {
-        String loja = lojaList.get(position);
+        JSONObject loja = lojaList.get(position);
         holder.bind(loja);
     }
 
@@ -54,16 +57,21 @@ public class LojaAdapter extends RecyclerView.Adapter<LojaAdapter.LojaViewHolder
     private Filter lojaFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<String> filteredList = new ArrayList<>();
+            List<JSONObject> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(lojaListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (String loja : lojaListFull) {
-                    if (loja.toLowerCase().contains(filterPattern)) {
-                        filteredList.add(loja);
+                for (JSONObject loja : lojaListFull) {
+                    try {
+                        String razaoSocial = loja.getString("RAZAO SOCIAL").toLowerCase();
+                        if (razaoSocial.contains(filterPattern)) {
+                            filteredList.add(loja);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -76,21 +84,35 @@ public class LojaAdapter extends RecyclerView.Adapter<LojaAdapter.LojaViewHolder
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             lojaList.clear();
-            lojaList.addAll((List) results.values);
+            lojaList.addAll((List<JSONObject>) results.values);
             notifyDataSetChanged();
         }
     };
 
     class LojaViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewLoja;
+        private TextView textViewNomeLoja;
+        private TextView textViewRuaLoja;
+        private TextView textViewNumeroLoja;
 
         LojaViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewLoja = itemView.findViewById(R.id.lojaNome);
+            textViewNomeLoja = itemView.findViewById(R.id.lojaNome);
+            textViewRuaLoja = itemView.findViewById(R.id.ruaLojas);
+            textViewNumeroLoja = itemView.findViewById(R.id.numeroLojas);
         }
 
-        void bind(String loja) {
-            textViewLoja.setText(loja);
+        void bind(JSONObject loja) {
+            try {
+                String razaoSocial = loja.getString("RAZAO SOCIAL");
+                String rua = loja.getString("RUA");
+                String numero = loja.getString("N");
+
+                textViewNumeroLoja.setText("N°" + numero);
+                textViewNomeLoja.setText(razaoSocial);
+                textViewRuaLoja.setText(rua);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

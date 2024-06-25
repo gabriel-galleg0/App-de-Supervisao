@@ -31,13 +31,11 @@ import java.util.concurrent.TimeUnit;
 
 import Model.Usuario;
 import Util.ConfigDb;
-
 public class VendedorActivity extends AppCompatActivity {
     Button botaoEntrarVendedor, verficicacaoTel;
     EditText telefone, verificacaocd;
     private FirebaseAuth autenticacao;
     private String verificacaoid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +55,9 @@ public class VendedorActivity extends AppCompatActivity {
                 verifycode(verificacaocd.getText().toString().toString());
             }
         });
-
+        /**
+         * Listener do botão para enviar o código de verificação
+         */
         verficicacaoTel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +71,10 @@ public class VendedorActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Envia o código de verificação para o telefone, método retirado diretamente da documentação do FireBase
+     * @param telefone
+     */
     private void sendVerificationCode(String telefone) {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(autenticacao)
@@ -84,11 +87,9 @@ public class VendedorActivity extends AppCompatActivity {
     }
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
     mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
         final String codigo = credential.getSmsCode();
-
             if (codigo != null) {
                 verifycode(codigo);
             }
@@ -96,9 +97,7 @@ public class VendedorActivity extends AppCompatActivity {
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
         Toast.makeText(VendedorActivity.this, "Código de Validação Inválido", Toast.LENGTH_SHORT).show();
-
         }
-
         @Override
         public void onCodeSent(@NonNull String s,
                 @NonNull PhoneAuthProvider.ForceResendingToken token)
@@ -107,12 +106,18 @@ public class VendedorActivity extends AppCompatActivity {
             verificacaoid = s;
         }
     };
-
+    /**
+     * Verifica se o código recebido está correto
+     * @param codigo
+     */
     private void verifycode(String codigo) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificacaoid, codigo);
         logarCredenciais(credential);
     }
-
+    /**
+     * Método que faz a verificação se as credenciasi(Código recebido no sms) estão corretas
+     * @param credential
+     */
     private void logarCredenciais(PhoneAuthCredential credential)
     {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -126,9 +131,6 @@ public class VendedorActivity extends AppCompatActivity {
             }
             });
         }
-
-
-
     /**
      * Método para inicializar os compontentes
      */

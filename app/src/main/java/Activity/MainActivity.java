@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main2);
+        EdgeToEdge.enable(this); //Linha que deixa o layout completando a tela inteira do celular
+        setContentView(R.layout.activity_main2); //Definindo o layout nesse caso activity_main2
         /**
          * Instanciando os botões pelo ID
          */

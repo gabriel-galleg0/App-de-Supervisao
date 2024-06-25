@@ -6,5 +6,4 @@
         <!-- Defina a cor do hint (texto de sugestão) se necessário -->
         <item name="android:textColorHint">@android:color/white</item>
     </style>
-
 </resources>

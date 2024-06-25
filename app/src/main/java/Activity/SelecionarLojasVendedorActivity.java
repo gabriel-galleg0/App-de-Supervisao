@@ -1,12 +1,13 @@
 package Activity;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
-
-import Model.RecyclerItemClickListener;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.LojaAdapter;
+import Model.RecyclerItemClickListener;
 import Model.RegiaoAdapter;
 
 public class SelecionarLojasVendedorActivity extends AppCompatActivity {
@@ -39,7 +41,7 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
     private RecyclerView recyclerViewRegioes;
     private SearchView searchViewLojas;
     private SearchView searchViewRegioes;
-    private List<String> lojaList = new ArrayList<>();
+    private List<JSONObject> lojaList = new ArrayList<>(); // Lista de objetos JSONObject
     private List<String> regiaoList = new ArrayList<>();
     private LojaAdapter lojaAdapter;
     private RegiaoAdapter regiaoAdapter;
@@ -47,39 +49,43 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
     private JSONObject selectedLojaObject;
     private String selectedRegiao;
     private List<String> nomeLojasFirebase;
+    private Button botaoSair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seleciona_vendedor);
+        setContentView(R.layout.activity_seleciona_vendedor); //Isso faz o layout de selecionar lojas para o vendedor ser inflado na tela
 
         mAuth = FirebaseAuth.getInstance();
-        EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this); //Este método é para a tela ser preenchida de ponta a ponta
 
+        /**
+         * Métodos para setar as views (puxar o id do que irá aparecer na tela)
+         */
         searchViewLojas = findViewById(R.id.searchViewLojas);
         searchViewRegioes = findViewById(R.id.searchViewRegiao);
 
         recyclerViewLojas = findViewById(R.id.recyclerViewLojas);
         recyclerViewRegioes = findViewById(R.id.recyclerViewRegiao);
+        botaoSair = findViewById(R.id.sair);
 
         nomeLojasFirebase = new ArrayList<>();
 
         carregarNomesLojasFirebase();
         loadRegioes();
 
-        searchViewLojas.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        botaoSair.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                lojaAdapter.getFilter().filter(newText);
-                return true;
+            public void onClick(View v) {
+                logOff();
+                finish();
             }
         });
 
+        /**
+         * Listener para a pesquisa das regiões
+         *
+         */
         searchViewRegioes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -92,11 +98,29 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
                 return true;
             }
         });
+        /**
+         * Listener para pesquisar as lojas
+         */
+        searchViewLojas.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                lojaAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
     }
 
+    /**
+     * Método que carrega as regiões do FirebaseStorage
+     */
     private void loadRegioes() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("Lojas/Cidades");
+        StorageReference storageRef = storage.getReference().child("Lojas/Cidades"); //Aqui eu coloco qual caminho será usado para carregar os dados
 
         storageRef.listAll().addOnSuccessListener(listResult -> {
             List<String> regioes = new ArrayList<>();
@@ -112,6 +136,9 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
             regiaoAdapter = new RegiaoAdapter(SelecionarLojasVendedorActivity.this, regiaoList);
             recyclerViewRegioes.setAdapter(regiaoAdapter);
 
+            /**
+             * Aqui faz que quando o usuário tocar na região o app carrega as lojas
+             */
             recyclerViewRegioes.addOnItemTouchListener(new RecyclerItemClickListener(SelecionarLojasVendedorActivity.this, recyclerViewRegioes, new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
@@ -130,6 +157,10 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Carrega os dados de regiao
+     * @param regiao
+     */
     private void loadJSONData(String regiao) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         String path = "Lojas/Cidades/" + regiao + ".json";
@@ -139,9 +170,10 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
             String jsonString = new String(bytes);
             try {
                 JSONArray jsonArray = new JSONArray(jsonString);
-                List<String> lojas = new ArrayList<>();
+                List<JSONObject> lojas = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    lojas.add(jsonArray.getJSONObject(i).getString("RAZAO SOCIAL"));
+                    JSONObject loja = jsonArray.getJSONObject(i);
+                    lojas.add(loja);
                 }
                 lojaList.clear();
                 lojaList.addAll(lojas);
@@ -150,24 +182,20 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
                 recyclerViewLojas.setLayoutManager(layoutManager);
                 lojaAdapter = new LojaAdapter(SelecionarLojasVendedorActivity.this, lojaList);
                 recyclerViewLojas.setAdapter(lojaAdapter);
-
+                /**
+                 * Aqui faz que quando o usuário tocar na loja o app carrega as imagens
+                 */
                 recyclerViewLojas.addOnItemTouchListener(new RecyclerItemClickListener(SelecionarLojasVendedorActivity.this, recyclerViewLojas, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        try {
-                            selectedLojaObject = jsonArray.getJSONObject(position);
-                            proximaTela(view);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        selectedLojaObject = lojaList.get(position);
+                        proximaTela(view);
                     }
-
                     @Override
                     public void onLongItemClick(View view, int position) {
                         // Implementar ação para clique longo se necessário
                     }
                 }));
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -175,8 +203,11 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
             Toast.makeText(SelecionarLojasVendedorActivity.this, "Erro ao Carregar a Região", Toast.LENGTH_SHORT).show();
         });
     }
-
+    /**
+     * Auto explicativo
+     */
     private void carregarNomesLojasFirebase() {
+
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("Lojas");
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -189,14 +220,16 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(SelecionarLojasVendedorActivity.this, "Erro ao carregar as lojas", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
+    /**
+     * Método que manda para a próxima tela porém só se existir uma foto em imagenProblema com o msm nome da loja selecionada
+     * @param view
+     */
     public void proximaTela(View view) {
         if (selectedLojaObject != null) {
             String nomeFantasiaSelecionado = selectedLojaObject.optString("RAZAO SOCIAL");
@@ -231,4 +264,12 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
             Toast.makeText(SelecionarLojasVendedorActivity.this, "Selecione uma loja antes de prosseguir", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void logOff() {
+        mAuth.signOut();
+        Intent intent = new Intent(SelecionarLojasVendedorActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
+

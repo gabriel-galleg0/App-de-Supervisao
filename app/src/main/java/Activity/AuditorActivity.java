@@ -21,6 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
+
 import Model.Usuario;
 import Util.ConfigDb;
 
@@ -33,8 +35,8 @@ public class AuditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_auditor);
+        EdgeToEdge.enable(this); //Essa linha deixa o layout do tamanho inteiro da tela, não tendo aquela barra de notificação igual do GIV que fica feio
+        setContentView(R.layout.activity_auditor); //Faz o layout da tela ser o layout do activity_auditor
         autenticacao = ConfigDb.autenticacao();
         incicializar();
         botaoEntrar.setOnClickListener(new View.OnClickListener() {
@@ -114,5 +116,14 @@ public class AuditorActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
+        if(usuarioLogado != null){
+            startActivity(new Intent(this, SelecionarLojasActivity.class));
+            finish();
+        }
     }
 }
