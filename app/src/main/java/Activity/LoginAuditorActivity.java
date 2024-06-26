@@ -114,6 +114,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 moveViewsUp();
 
                 checkBoxInvasao.setChecked(true);
+                checkBoxInvasao.setEnabled(false);
                 salvarInvasao.setVisibility(View.GONE);
             }
         });
@@ -126,13 +127,16 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 imageViewManutencao.setVisibility(View.GONE);
                 botaoCameraManutencao.setVisibility(View.GONE);
 
+                checkBoxManutencao.setChecked(true);
+                checkBoxManutencao.setEnabled(false);
+                salvarManutencao.setVisibility(View.GONE);
+
                 ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) imageViewManutencao.getLayoutParams();
                 layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.default_top_margin);
                 imageViewManutencao.setLayoutParams(layoutParams);
                 moveViewsUpManutencao();
 
-                checkBoxManutencao.setChecked(true);
-                salvarManutencao.setVisibility(View.GONE);
+
             }
         });
         /**
@@ -145,6 +149,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 botaoCameraLimpeza.setVisibility(View.GONE);
                 moveViewUpLimpeza();
                 salvarLimpeza.setVisibility(View.GONE);
+
+                checkBoxLimpeza.setChecked(true);
+                checkBoxLimpeza.setEnabled(false);
             }
         });
 /**

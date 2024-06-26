@@ -38,7 +38,8 @@
         android:shadowColor="#000000"
         android:text="Auditor"
         android:textAllCaps="false"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        app:rippleColor="#676464"/>
 
     <Button
         android:id="@+id/entrarVendedor"
@@ -50,6 +51,8 @@
         android:shadowColor="#000000"
         android:text="Vendedor"
         android:textAllCaps="false"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        app:rippleColor="#676464"
+        />
 
 </LinearLayout>

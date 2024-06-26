@@ -43,7 +43,8 @@
         android:text="Número"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        />
 
 
 </LinearLayout>

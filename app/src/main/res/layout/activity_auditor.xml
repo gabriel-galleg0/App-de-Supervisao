@@ -76,6 +76,8 @@
         android:shadowColor="#000000"
         android:text="Entrar"
         android:textAllCaps="false"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        app:rippleColor="#676464"
+        />
 
 </LinearLayout>

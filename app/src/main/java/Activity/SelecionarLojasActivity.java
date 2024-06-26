@@ -96,7 +96,6 @@ public class SelecionarLojasActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         /**
          * Adiciona um listener de pesquisa para o campo de Regiões
          */
@@ -113,7 +112,6 @@ public class SelecionarLojasActivity extends AppCompatActivity {
             }
         });
     }
-
     /**
      * Carrega as Regiões do FireBase pelo caminho definindo na linha 109
      */
