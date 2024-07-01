@@ -5,135 +5,147 @@ import com.example.appjava.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.concurrent.TimeUnit;
 
-import Model.Usuario;
-import Util.ConfigDb;
 public class VendedorActivity extends AppCompatActivity {
     Button botaoEntrarVendedor, verficicacaoTel;
     EditText telefone, verificacaocd;
     private FirebaseAuth autenticacao;
     private String verificacaoid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendedor);
-        autenticacao = ConfigDb.autenticacao();
-        EdgeToEdge.enable(this);
+        autenticacao = FirebaseAuth.getInstance();
         inicializar();
-        /**
-         * Listenner do botão para logar
-         */
+
         botaoEntrarVendedor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(verificacaocd.getText().toString())){
+                if (TextUtils.isEmpty(verificacaocd.getText().toString())) {
                     Toast.makeText(VendedorActivity.this, "Código errado", Toast.LENGTH_SHORT).show();
+                } else {
+                    verifyCode(verificacaocd.getText().toString());
                 }
-                verifycode(verificacaocd.getText().toString().toString());
             }
         });
-        /**
-         * Listener do botão para enviar o código de verificação
-         */
+
         verficicacaoTel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(telefone.getText().toString())){
-                 Toast.makeText(VendedorActivity.this, "Preencha o telefone", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                if (TextUtils.isEmpty(telefone.getText().toString())) {
+                    Toast.makeText(VendedorActivity.this, "Preencha o telefone", Toast.LENGTH_SHORT).show();
+                } else {
                     String numero = telefone.getText().toString();
                     sendVerificationCode(numero);
                 }
             }
         });
     }
-    /**
-     * Envia o código de verificação para o telefone, método retirado diretamente da documentação do FireBase
-     * @param telefone
-     */
+
     private void sendVerificationCode(String telefone) {
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(autenticacao)
-                        .setPhoneNumber("+55" + telefone)       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // (optional) Activity for callback binding
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(autenticacao)
+                .setPhoneNumber("+55" + telefone)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(mCallbacks)
+                .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
-    mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-        final String codigo = credential.getSmsCode();
+            final String codigo = credential.getSmsCode();
             if (codigo != null) {
-                verifycode(codigo);
+                verifyCode(codigo);
             }
         }
+
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-        Toast.makeText(VendedorActivity.this, "Código de Validação Inválido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(VendedorActivity.this, "Código de Validação Inválido", Toast.LENGTH_SHORT).show();
         }
+
         @Override
-        public void onCodeSent(@NonNull String s,
-                @NonNull PhoneAuthProvider.ForceResendingToken token)
-        {
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken token) {
             super.onCodeSent(s, token);
             verificacaoid = s;
         }
     };
-    /**
-     * Verifica se o código recebido está correto
-     * @param codigo
-     */
-    private void verifycode(String codigo) {
+
+    private void verifyCode(String codigo) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificacaoid, codigo);
         logarCredenciais(credential);
     }
-    /**
-     * Método que faz a verificação se as credenciasi(Código recebido no sms) estão corretas
-     * @param credential
-     */
-    private void logarCredenciais(PhoneAuthCredential credential)
-    {
+
+    private void logarCredenciais(PhoneAuthCredential credential) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    FirebaseUser user = task.getResult().getUser();
+                    if (user != null) {
+                        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (task.isSuccessful()) {
+                                    String token = task.getResult();
+                                    saveTokenToDatabase(user.getUid(), token); // Salvar no Realtime Database
+                                } else {
+                                    Log.e("VendedorActivity", "Não foi possível obter o token FCM", task.getException());
+                                }
+                            }
+                        });
+                    }
                     Toast.makeText(VendedorActivity.this, "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
                     login();
+                } else {
+                    Toast.makeText(VendedorActivity.this, "Falha no login", Toast.LENGTH_SHORT).show();
                 }
             }
-            });
-        }
-    /**
-     * Método para inicializar os compontentes
-     */
+        });
+    }
+
+    private void saveTokenToDatabase(String userId, String token) {
+        // Referência para o nó 'users' no Realtime Database
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+
+        // Criar um nó para o usuário com o UID como chave
+        DatabaseReference userRef = databaseReference.child(userId);
+
+        // Salvar os dados (telefone, token FCM, etc.) no nó do usuário
+        userRef.child("phoneNumber").setValue(telefone.getText().toString()); // Exemplo de salvar o telefone
+        userRef.child("fcmToken").setValue(token);
+        userRef.child("smsVerified").setValue(true);
+
+        Log.d("VendedorActivity", "Token FCM salvo com sucesso no Realtime Database");
+    }
+
     private void inicializar() {
         verficicacaoTel = findViewById(R.id.botaoVerificacaoTel);
         telefone = findViewById(R.id.telefone);
@@ -141,22 +153,18 @@ public class VendedorActivity extends AppCompatActivity {
         botaoEntrarVendedor = findViewById(R.id.botaoEntrarVendedor);
         autenticacao = FirebaseAuth.getInstance();
     }
-    /**
-     * Método que altera de tela quando o login for feito com sucessoq
-     */
+
     public void login() {
         Intent intent = new Intent(this, SelecionarLojasVendedorActivity.class);
         startActivity(intent);
+        finish();
     }
-    /**
-     * Método que confere se os dados enviados são certos quanto ao dados de login
-     * @param
-     */
+
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
-        if(usuarioLogado != null){
+        if (usuarioLogado != null) {
             startActivity(new Intent(this, SelecionarLojasVendedorActivity.class));
             finish();
         }

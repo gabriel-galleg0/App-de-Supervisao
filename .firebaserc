@@ -1,5 +1,8 @@
 {
   "projects": {
     "default": "appjava1-2968b"
-  }
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }

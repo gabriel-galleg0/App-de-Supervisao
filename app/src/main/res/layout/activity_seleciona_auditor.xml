@@ -9,8 +9,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewLojas"
-        android:layout_width="367dp"
-        android:layout_height="240dp"
+        android:layout_width="361dp"
+        android:layout_height="216dp"
         android:layout_margin="16dp"
         app:circularflow_radiusInDP="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintVertical_bias="0.823" />
 
     <TextView
         android:id="@+id/SelecionarRegiao"
@@ -30,10 +30,10 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.454" />
+        app:layout_constraintVertical_bias="0.483" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRegiao"
@@ -63,7 +63,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.048" />
 
     <Button
         android:id="@+id/sair"
@@ -71,13 +71,14 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#FF0000"
         android:text="Sair"
-        android:textColorLink="#ffffff"
+        android:textColor="#FFFFFF"
+        android:theme="@style/Base.Theme.AppJava"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938"
+        app:layout_constraintVertical_bias="0.928"
         app:rippleColor="#4F0C0C"
         app:strokeColor="#FF0000" />
 
@@ -109,6 +110,18 @@
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.533" />
+        app:layout_constraintVertical_bias="0.557" />
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBarRegiao"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="131dp"
+        android:layout_height="131dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.226" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

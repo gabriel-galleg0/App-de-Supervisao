@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ import Model.RecyclerItemClickListener;
 import Model.RegiaoAdapter;
 
 public class SelecionarLojasActivity extends AppCompatActivity {
+    private ProgressBar loadL;
+    private ProgressBar loadR;
     private RecyclerView recyclerViewLojas;
     private RecyclerView recyclerViewRegioes;
     private SearchView searchViewLojas;
@@ -55,6 +58,10 @@ public class SelecionarLojasActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         EdgeToEdge.enable(this); //Deixa o conteúdo do layout visivel na tela inteira
+        loadR = findViewById(R.id.progressBarRegiao);
+        exibirProgressoR(true);
+        loadL = findViewById(R.id.progressBarLojas);
+        exibirProgressoL(true);
 
         /**
          * Inicializa os elementos da tela
@@ -142,18 +149,18 @@ public class SelecionarLojasActivity extends AppCompatActivity {
                     selectedRegiao = regiaoList.get(position);
                     loadJSONData(selectedRegiao);
                 }
-
                 @Override
                 public void onLongItemClick(View view, int position) {
                     // Implementar ação para clique longo se necessário
                 }
             }));
 
+            exibirProgressoR(false);
+
         }).addOnFailureListener(exception -> {
             Toast.makeText(SelecionarLojasActivity.this, "Erro ao carregar as regiões", Toast.LENGTH_SHORT).show();
         });
     }
-
     /**
      * Carrega os dados das lojas da região selecionada
      * @param regiao
@@ -189,13 +196,12 @@ public class SelecionarLojasActivity extends AppCompatActivity {
                         selectedLojaObject = lojaList.get(position);
                         proximaTela(view);
                     }
-
                     @Override
                     public void onLongItemClick(View view, int position) {
                         // Implementar ação para clique longo se necessário
                     }
                 }));
-
+                exibirProgressoR(false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -203,16 +209,15 @@ public class SelecionarLojasActivity extends AppCompatActivity {
             Toast.makeText(SelecionarLojasActivity.this, "Erro ao Carregar a Região", Toast.LENGTH_SHORT).show();
         });
     }
-
     /**
      * Carrega os nomes das lojas do Firebase
      */
     private void carregarNomesLojasFirebase() {
-
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("Lojas");
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                exibirProgressoL(false);
                 nomeLojasFirebase.clear();
                 for (DataSnapshot lojaSnapshot : dataSnapshot.getChildren()) {
                     String nomeDaLoja = lojaSnapshot.child("RAZAO SOCIAL").getValue(String.class);
@@ -220,11 +225,12 @@ public class SelecionarLojasActivity extends AppCompatActivity {
                         nomeLojasFirebase.add(nomeDaLoja);
                     }
                 }
+                exibirProgressoL(false);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(SelecionarLojasActivity.this, "Erro ao carregar as lojas", Toast.LENGTH_SHORT).show();
+                exibirProgressoL(false);
             }
         });
     }
@@ -248,4 +254,13 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    public void exibirProgressoR(boolean exibir){
+        loadR.setVisibility(exibir ? View.VISIBLE : View.GONE);;
+    }
+
+    public void exibirProgressoL(boolean exibir){
+        loadL.setVisibility(exibir ? View.VISIBLE : View.GONE);
+    }
+
 }

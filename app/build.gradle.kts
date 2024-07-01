@@ -83,6 +83,8 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 
     //Firebase
+
+    implementation("com.google.firebase:firebase-database:20.0.3")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.firebaseui:firebase-ui-storage:7.2.0")
@@ -91,7 +93,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation ("com.google.firebase:firebase-storage:20.0.1")
     implementation("com.google.firebase:firebase-firestore:24.0.1")
-    implementation("com.google.firebase:firebase-database:20.0.3")
-
+    implementation ("com.google.firebase:firebase-messaging:23.0.0")
+    implementation(platform("com.google.cloud:libraries-bom:26.42.0"))
 
 }
