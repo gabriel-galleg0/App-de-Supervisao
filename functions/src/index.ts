@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import * as path from "path";
 
 // Inicializa o Firebase Admin
 admin.initializeApp();
@@ -15,6 +16,8 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
     console.log("O arquivo não está na pasta correta");
     return null;
   }
+  const arquivoNome = path.basename(caminhoArquivo);
+  const [, local] = arquivoNome.split("_");
 
   try {
     const snapshot = await admin.database().ref("users").orderByChild(
@@ -40,15 +43,16 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
       console.log("Sem tokens disponíveis");
       return null;
     }
+    const iconUrl = "https://firebasestorage.googleapis.com/v0/b/appjava1-2968b.appspot.com/o/Factu%20PNG2.png?alt=media&token=7909f836-007d-4ce6-bb92-89945d76f0b3";
 
     // Payload da notificação a ser enviada
     const payload = {
       notification: {
         title: "Nova foto foi adicionada",
-        body: "Uma nova ocorrência foi adicionada em ...",
+        body: `Uma nova ocorrência adicionada em ${local.replace(/_/g, " " )}`,
       },
       data: {
-        icon: "https://firebasestorage.googleapis.com/v0/b/appjava1-2968b.appspot.com/o/Factu%20PNG2.png?alt=media&token=7909f836-007d-4ce6-bb92-89945d76f0b3",
+        icon: iconUrl,
       },
     };
 
@@ -57,6 +61,7 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
       const message = {
         token: token,
         notification: payload.notification,
+        data: payload.data,
       };
       try {
         const response = await admin.messaging().send(message);
