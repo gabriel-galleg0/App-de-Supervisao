@@ -43,7 +43,7 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
       console.log("Sem tokens disponíveis");
       return null;
     }
-    const iconUrl = "https://firebasestorage.googleapis.com/v0/b/appjava1-2968b.appspot.com/o/Factu%20PNG2.png?alt=media&token=7909f836-007d-4ce6-bb92-89945d76f0b3";
+    const iconUrl = "https://firebasestorage.googleapis.com/v0/b/appjava1-2968b.appspot.com/o/factulogo.webp?alt=media&token=fc17aa6d-9002-4d93-8ea0-620e8c7e51aa";
 
     // Payload da notificação a ser enviada
     const payload = {
