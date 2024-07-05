@@ -1,8 +1,13 @@
 package Activity;
 
-import static androidx.core.content.ContextCompat.startActivity;
 
+
+import static Activity.NotificationHelper.createNotificationChannel;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +63,7 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         EdgeToEdge.enable(this); //Este método é para a tela ser preenchida de ponta a ponta
+
 
         /**
          * Métodos para setar as views (puxar o id do que irá aparecer na tela)

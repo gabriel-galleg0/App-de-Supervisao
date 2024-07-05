@@ -30,8 +30,8 @@
 
     <EditText
         android:id="@+id/telefone"
-        android:layout_width="326dp"
-        android:layout_height="34dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -44,7 +44,8 @@
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF" />
+        android:textColorHint="#FFFFFF"
+        />
 
     <Button
         android:id="@+id/botaoVerificacaoTel"
@@ -58,27 +59,42 @@
         android:textAllCaps="false"
         android:textColor="#000000"
         app:rippleColor="#5F5B63"
-
+        android:layout_marginBottom="10dp"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/verificacao"
-        android:layout_width="336dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        app:endIconMode="password_toggle"
         android:layout_marginBottom="13dp"
-        android:background="@drawable/background_txt_cadastro"
         android:drawableStart="@drawable/baseline_lock_24"
         android:drawablePadding="8dp"
         android:ems="10"
         android:hint="Digite o Código de Verificação"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textColorHighlight="#FFECEC"
-        android:textColorHint="#FFFFFF" />
+        app:hintTextColor="@color/white"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/verificacao_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_txt_cadastro"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="numberPassword"
+             />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
     <Button
         android:id="@+id/botaoEntrarVendedor"

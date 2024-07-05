@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 public class VendedorActivity extends AppCompatActivity {
     Button botaoEntrarVendedor, verficicacaoTel;
-    EditText telefone, verificacaocd;
+    EditText telefone ;
+    TextInputLayout verificacaoLayout;
+    TextInputEditText verificacaocd;
     private FirebaseAuth autenticacao;
     private String verificacaoid;
 
@@ -41,6 +46,7 @@ public class VendedorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vendedor);
         autenticacao = FirebaseAuth.getInstance();
         inicializar();
+        EdgeToEdge.enable(this);
 
         botaoEntrarVendedor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,10 +153,11 @@ public class VendedorActivity extends AppCompatActivity {
     }
 
     private void inicializar() {
+        botaoEntrarVendedor = findViewById(R.id.botaoEntrarVendedor);
         verficicacaoTel = findViewById(R.id.botaoVerificacaoTel);
         telefone = findViewById(R.id.telefone);
-        verificacaocd = findViewById(R.id.verificacao);
-        botaoEntrarVendedor = findViewById(R.id.botaoEntrarVendedor);
+        verificacaoLayout = findViewById(R.id.verificacao);
+        verificacaocd = verificacaoLayout.findViewById(R.id.verificacao_edit_text);
         autenticacao = FirebaseAuth.getInstance();
     }
 

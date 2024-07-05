@@ -1,6 +1,6 @@
 package Activity;
 
-
+import static Activity.NotificationHelper.createNotificationChannel;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -9,12 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-
 import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,74 +36,54 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this); // Habilita o layout de borda a borda
         setContentView(R.layout.activity_main2); // Define o layout activity_main2
+        inicializar(); // Inicializa os componentes
+        createNotificationChannel(this);
+
+        // Verificar a versão do Android para criar o canal de notificação
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    "canalPadrao",
+                    "Canal de Notificações",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("Notificações");
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
         // Configuração dos botões
-        entrarVendedor = findViewById(R.id.entrarVendedor);
-        entrarAuditor = findViewById(R.id.entrarAuditor);
-
-        // Ação do botão vendedor para trocar de tela
-        entrarVendedor.setOnClickListener(v -> {
-            startActivity(new Intent(this, VendedorActivity.class));
-        });
-
-        // Ação do botão auditor para trocar de tela
-        entrarAuditor.setOnClickListener(v -> {
-            startActivity(new Intent(this, AuditorActivity.class));
-        });
-
-
+        entrarVendedor.setOnClickListener(v -> startActivity(new Intent(this, VendedorActivity.class)));
+        entrarAuditor.setOnClickListener(v -> startActivity(new Intent(this, AuditorActivity.class)));
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
+        // Verifica se o usuário está logado
         if (user != null) {
-            // Usuário já está autenticado
             saveUserToDatastore(user);
-        } else {
-            // Realize a autenticação por SMS e, em seguida, chame saveUserToDatastore(user)
         }
 
-
-
-
-        NotificationHelper.createNotificationChannel(this);
-
-        // Solicitar permissões necessárias
+        // Solicita permissões
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
                     PERMISSION_REQUEST_CODE);
-        } else {
-            // Permissão já concedida
         }
 
-        /**
-         * Instanciando os botões pelo ID
-         */
-        entrarAuditor = findViewById(R.id.entrarAuditor);
-        entrarVendedor = findViewById(R.id.entrarVendedor);
-
-        /**
-         * Ação do Botão vendedor para trocar de tela
-         */
-        entrarVendedor.setOnClickListener(v -> {
-            startActivity(new Intent(this, VendedorActivity.class));
-        });
-
-        /**
-         * Ação do Botão auditor para trocar de tela
-         */
-        entrarAuditor.setOnClickListener(v -> {
-            startActivity(new Intent(this, AuditorActivity.class));
-        });
-
+        // Ajusta o padding para considerar as barras do sistema
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.principal1), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
+    private void inicializar() {
+        entrarVendedor = findViewById(R.id.entrarVendedor);
+        entrarAuditor = findViewById(R.id.entrarAuditor);
+    }
+
     private void saveUserToDatastore(FirebaseUser user) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
@@ -113,19 +92,15 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // Get new FCM registration token
+                    // pega um novo token fcm
                     String token = task.getResult();
-
-                    // Envie esses dados para o seu servidor para salvar no Datastore
-                    // Você pode usar Retrofit, HttpUrlConnection ou qualquer biblioteca de rede para enviar os dados
                     sendUserDataToServer(user.getUid(), user.getPhoneNumber(), token);
                 });
     }
 
     private void sendUserDataToServer(String uid, String phoneNumber, String fcmToken) {
-        // Implementar o envio dos dados para o seu servidor para salvar no Datastore
+        // Aqui é para caso necessite implementar algum envio de dados para o servidor
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -133,10 +108,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permissão concedida pelo usuário
-                // Inicialize o serviço de notificação ou outras funcionalidades necessárias
             } else {
-                // Permissão negada pelo usuário
-                // Informe ao usuário sobre a importância da permissão
+                // Ainda preciso implementar algo caso o usuário negue as notificações
             }
         }
     }

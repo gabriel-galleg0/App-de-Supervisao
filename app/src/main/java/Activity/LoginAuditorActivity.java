@@ -463,7 +463,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
      */
     private void salvarImagens(String nomeLoja) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("Sua URL para conectar com o FireBaseStorage");
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appjava1-2968b.appspot.com");
         /**
          * Verifica se tem alguma imagem no ImageView, nesse caso de Invasão, e encaminha para o FireBaseStorage
          */

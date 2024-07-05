@@ -1,8 +1,19 @@
 package Activity;
 
-import android.support.annotation.NonNull;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.example.appjava.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.SetOptions;
@@ -17,6 +28,8 @@ import java.util.Map;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    private static final String CHANNEL_ID = "canalPadrao";
+
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
@@ -47,13 +60,58 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         super.onMessageReceived(remoteMessage);
-        if(remoteMessage.getData().size() > 0){
+
+        if (remoteMessage.getData().size() > 0) {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("body");
+            String iconUrl = remoteMessage.getData().get("icon");  // Supondo que você tenha um campo "icon" nos dados
 
-            NotificationHelper.showNotification(this, title, body);
+            showNotification(title, body, iconUrl);
         }
     }
+
+    /**
+     * Método que vai exibir as notificações com base nos dados que foram recebidos
+     * @param title
+     * @param messageBody
+     * @param iconUrl
+     */
+    private void showNotification(String title, String messageBody, String iconUrl) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+
+        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_factu_teste)  // icon padrao mas não ta certo ainda, está pequeno
+                .setContentTitle(title)
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        if (iconUrl != null && !iconUrl.isEmpty()) {
+            // Carregar a imagem do ícone usando Glide
+            Glide.with(this)
+                    .asBitmap()
+                    .load(iconUrl)
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            notificationBuilder.setLargeIcon(resource);  // Define o ícone grande da notificação
+                            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            notificationManager.notify(0, notificationBuilder.build());
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
+        } else {
+            //caso algo de errado com o icone vai mostrar um icone padrão que é o da linha 88
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(0, notificationBuilder.build());
+        }
+    }
+
 }

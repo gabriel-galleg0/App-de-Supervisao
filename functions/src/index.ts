@@ -47,11 +47,9 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
 
     // Payload da notificação a ser enviada
     const payload = {
-      notification: {
+      data: {
         title: "Nova foto foi adicionada",
         body: `Uma nova ocorrência adicionada em ${local.replace(/_/g, " " )}`,
-      },
-      data: {
         icon: iconUrl,
       },
     };
@@ -60,7 +58,6 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
     const sendPromises = tokens.map(async (token) => {
       const message = {
         token: token,
-        notification: payload.notification,
         data: payload.data,
       };
       try {
@@ -78,8 +75,8 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
     // Verificar respostas e lidar com erros se houver
     responses.forEach((response, idx) => {
       if (response instanceof Error) {
-        console.error(`Erro ao enviar a notificação ao ${tokens[idx]}
-          :`, response);
+        console.error(`Erro ao enviar a notificação ao 
+          ${tokens[idx]}:`, response);
       }
     });
 
