@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -42,6 +43,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 
 public class LoginAuditorActivity extends AppCompatActivity {
+
+    private ProgressBar progressBar;
     private String nomeLoja;
     private FloatingActionButton botaoCameraManutencao;
     private ImageView imageView;
@@ -67,6 +70,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login2);
         FirebaseApp.initializeApp(this);
+
+        progressBar = findViewById(R.id.progressBarAuditor);
+        exibirProgressBarr(false);
 
         fotoTiradaLimpeza = findViewById(R.id.fotoTiradaLimpeza);
         salvarLimpeza = findViewById(R.id.salvarLimpeza);
@@ -96,6 +102,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 salvarImagens(nomeLoja);
+                botaoEnviar.setVisibility(View.GONE);
+                exibirProgressBarr(true);
+
             }
         });
 /**
@@ -521,10 +530,15 @@ public class LoginAuditorActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 Uri downloadUri = task.getResult();
                 Toast.makeText(LoginAuditorActivity.this, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
+                exibirProgressBarr(false);
                 // Salve o downloadUri no Firebase Database ou execute qualquer outra ação necessária
             } else {
                 Toast.makeText(LoginAuditorActivity.this, "Falha ao obter o URL de download.", Toast.LENGTH_SHORT).show();
             }
         })).addOnFailureListener(e -> Toast.makeText(LoginAuditorActivity.this, "Falha ao fazer o upload da imagem.", Toast.LENGTH_SHORT).show());
+    }
+
+    private void exibirProgressBarr(boolean exibir){
+        progressBar.setVisibility(exibir ? View.VISIBLE : View.GONE);
     }
 }

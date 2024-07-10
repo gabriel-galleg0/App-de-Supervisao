@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/txtFunc"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:text="Auditor"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtNome"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:text="Item NameLot of so somany names that appear to be there is no there is no way   "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtPDV"
+        android:layout_width="124dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:text="Carrefour Mooca N1234 "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtSolicitado"
+        android:layout_width="128dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:text="Manutenção"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/txtSituacao"
+        android:layout_width="128dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@drawable/table_content_cell_bg"
+        android:text="Pendente"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+</LinearLayout>

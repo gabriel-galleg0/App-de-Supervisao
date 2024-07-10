@@ -2,6 +2,7 @@ package Activity;
 
 import com.example.appjava.R;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class AuditorActivity extends AppCompatActivity {
     public void login() {
         Intent intent = new Intent(this, SelecionarLojasActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**
@@ -98,6 +100,7 @@ public class AuditorActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    salvaLogin("emailPassword");
                     login();
                 }else {
                     String execao ="";
@@ -117,13 +120,30 @@ public class AuditorActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void salvaLogin(String metodo) {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("login_method", metodo);
+        editor.apply();
+    }
+
+    private String getMethod() {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        return preferences.getString("login_method", "");
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
         if(usuarioLogado != null){
+            if("emailPassword".equals(getMethod())) {
             startActivity(new Intent(this, SelecionarLojasActivity.class));
+        }else{
+                FirebaseAuth.getInstance().signOut();
+            }
             finish();
-        }
+    }
     }
 }

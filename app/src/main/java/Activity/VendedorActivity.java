@@ -2,7 +2,9 @@ package Activity;
 
 import com.example.appjava.R;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -116,6 +118,7 @@ public class VendedorActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     FirebaseUser user = task.getResult().getUser();
                     if (user != null) {
+                        salvarMetodoLogin("sms");
                         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                             @Override
                             public void onComplete(@NonNull Task<String> task) {
@@ -135,6 +138,18 @@ public class VendedorActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void salvarMetodoLogin(String metodo) {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("login_method", metodo);
+        editor.apply();
+    }
+
+    private String pegarMetodoLogin() {
+        SharedPreferences preferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return preferences.getString("login_method", null);
     }
 
     private void saveTokenToDatabase(String userId, String token) {
@@ -172,7 +187,11 @@ public class VendedorActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
         if (usuarioLogado != null) {
+            if("sms".equals(pegarMetodoLogin())){
             startActivity(new Intent(this, SelecionarLojasVendedorActivity.class));
+        }else{
+                FirebaseAuth.getInstance().signOut();
+            }
             finish();
         }
     }
