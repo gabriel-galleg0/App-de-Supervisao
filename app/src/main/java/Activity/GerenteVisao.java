@@ -3,6 +3,7 @@ package Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 import Model.AdapterTabela;
 
 public class GerenteVisao extends AppCompatActivity {
+    TextView apresentacao;
     private RecyclerView recyclerView;
     private AdapterTabela tableAdapter;
     private List<String> nomesArquivos;
@@ -33,6 +35,8 @@ public class GerenteVisao extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gerente_visao);
         EdgeToEdge.enable(this);
+
+        apresentacao = findViewById(R.id.apresentacao);
         recyclerView = findViewById(R.id.recyclerTabela);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
