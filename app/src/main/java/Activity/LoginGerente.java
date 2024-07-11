@@ -1,6 +1,5 @@
 package Activity;
 
-import com.example.appjava.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,75 +7,67 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.appjava.databinding.ActivityAuditorBinding;
+import com.example.appjava.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
 
 import Model.Usuario;
 import Util.ConfigDb;
 
-public class AuditorActivity extends AppCompatActivity {
+public class LoginGerente extends AppCompatActivity {
 
-    private ActivityAuditorBinding binding;
-    Button botaoEntrar;
+    TextInputLayout layoutSenha;
+    TextInputEditText digitaSenha;
+    EditText campoEmail;
+    Button botaoEntrarGerente;
     FirebaseAuth autenticacao;
-    EditText campoEmail, campoSenha;
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this); //Essa linha deixa o layout do tamanho inteiro da tela, não tendo aquela barra de notificação igual do GIV que fica feio
-        setContentView(R.layout.activity_auditor); //Faz o layout da tela ser o layout do activity_auditor
+        setContentView(R.layout.login_gerente);
+        EdgeToEdge.enable(this);
+
         autenticacao = ConfigDb.autenticacao();
-        incicializar();
-        botaoEntrar.setOnClickListener(new View.OnClickListener() {
+        inicializar();
+
+        botaoEntrarGerente.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-                logarUsuario(v);
+                logarGerente(v);
             }
         });
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.principal), (v, insets) -> {
-                    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                    return insets;
-                }
-        );}
-    /**
-     * Método responsável por navegar para a tela de seleção de lojas
-     */
-    public void login() {
-        Intent intent = new Intent(this, SelecionarLojasActivity.class);
+    }
+
+    private void inicializar() {
+        botaoEntrarGerente = findViewById(R.id.botaoEntrarGerente);
+        campoEmail = findViewById(R.id.email);
+        layoutSenha = findViewById(R.id.text_input_senha);
+        digitaSenha = layoutSenha.findViewById(R.id.senha_edit_text);
+
+    }
+
+    private void login(){
+        Intent intent = new Intent(this, GerenteVisao.class);
         startActivity(intent);
         finish();
     }
 
-    /**
-     * Método responsável por inicializar os componentes da tela
-     */
-    private void incicializar(){
-        campoEmail = findViewById(R.id.email);
-        campoSenha = findViewById(R.id.Senha);
-        botaoEntrar = findViewById(R.id.botaoEntrar);
-    }
-    /**
-     * Método responsável por realizar o login do usuário
-     * @param view
-     */
-    private void logarUsuario(View view){
+    private void logarGerente(View view){
         String email = campoEmail.getText().toString();
-        String senha = campoSenha.getText().toString();
+        String senha = digitaSenha.getText().toString();
+
+
         if(!email.isEmpty()){
             Usuario usuario = new Usuario();
             usuario.setEmail(email);
@@ -90,10 +81,7 @@ public class AuditorActivity extends AppCompatActivity {
             Toast.makeText(this, "Preencha o email", Toast.LENGTH_SHORT).show();
         }
     }
-    /**
-     * Método responsável por realizar o login do usuário no Firebase
-     * @param usuario
-     */
+
     private void logar(Usuario usuario) {
         autenticacao.signInWithEmailAndPassword(
                 usuario.getEmail(), usuario.getSenha()
@@ -116,7 +104,7 @@ public class AuditorActivity extends AppCompatActivity {
                         execao = "Erro ao logar" + e.getMessage();
                         e.printStackTrace();
                     }
-                    Toast.makeText(AuditorActivity.this, execao, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginGerente.this, execao, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -132,19 +120,5 @@ public class AuditorActivity extends AppCompatActivity {
     private String getMethod() {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         return preferences.getString("login_method", "");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
-        if(usuarioLogado != null){
-            if("emailPassword".equals(getMethod())) {
-            startActivity(new Intent(this, SelecionarLojasActivity.class));
-        }else{
-                FirebaseAuth.getInstance().signOut();
-            }
-            finish();
-    }
     }
 }

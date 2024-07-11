@@ -35,6 +35,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -520,10 +522,14 @@ public class LoginAuditorActivity extends AppCompatActivity {
      * @param storageRef
      */
     private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, String nomeLoja, StorageReference storageRef) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+        String userId = user.getUid();
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + System.currentTimeMillis() + ".jpg";
+        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + userId + ".jpg";
         StorageReference imageref = storageRef.child(path);
         UploadTask uploadTask = imageref.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> imageref.getDownloadUrl().addOnCompleteListener(task -> {
@@ -536,6 +542,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 Toast.makeText(LoginAuditorActivity.this, "Falha ao obter o URL de download.", Toast.LENGTH_SHORT).show();
             }
         })).addOnFailureListener(e -> Toast.makeText(LoginAuditorActivity.this, "Falha ao fazer o upload da imagem.", Toast.LENGTH_SHORT).show());
+    }
     }
 
     private void exibirProgressBarr(boolean exibir){

@@ -29,6 +29,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class MainActivity extends AppCompatActivity {
     Button entrarVendedor;
     Button entrarAuditor;
+    Button entrarSupervisao;
     private static final int PERMISSION_REQUEST_CODE = 1001;
 
     @Override
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         // Configuração dos botões
         entrarVendedor.setOnClickListener(v -> startActivity(new Intent(this, VendedorActivity.class)));
         entrarAuditor.setOnClickListener(v -> startActivity(new Intent(this, AuditorActivity.class)));
+        entrarSupervisao.setOnClickListener(v -> startActivity(new Intent(this, LoginGerente.class)));
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private void inicializar() {
         entrarVendedor = findViewById(R.id.entrarVendedor);
         entrarAuditor = findViewById(R.id.entrarAuditor);
+        entrarSupervisao = findViewById(R.id.entrarSupervisao);
     }
 
     private void saveUserToDatastore(FirebaseUser user) {

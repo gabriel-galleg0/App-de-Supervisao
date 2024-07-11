@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/principal2"
+    android:id="@+id/principal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_novo"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="32dp"
-    android:paddingRight="32dp"
+    android:paddingRight="20dp"
     android:visibility="visible"
-    tools:context="Activity.VendedorActivity">
+    tools:context="Activity.AuditorActivity">
 
     <ImageView
         android:id="@+id/logoFactu"
@@ -29,50 +29,35 @@
         tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/telefone"
-        android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:id="@+id/email"
+        android:layout_width="303dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/background_txt_cadastro"
         android:drawableStart="@drawable/baseline_person_24"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Digite seu Número"
-        android:inputType="phone"
+        android:hint="Login"
+        android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF" />
 
-    <Button
-        android:id="@+id/botaoVerificacaoTel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:backgroundTint="#FAFAFA"
-        android:shadowColor="#000000"
-        android:text="Verificar"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        app:rippleColor="#5F5B63"
-        android:layout_marginBottom="10dp"
-        />
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/verificacao"
+        android:layout_marginStart="8dp"
+        android:id="@+id/text_input_senha"
         android:layout_width="355dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="13dp"
-        android:drawableStart="@drawable/baseline_lock_24"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Digite o Código de Verificação"
+        android:hint="Digite a Senha"
         android:inputType="numberPassword"
         android:padding="8dp"
         android:textAlignment="textStart"
@@ -85,29 +70,28 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/verificacao_edit_text"
-            android:layout_width="307dp"
-            android:layout_height="53dp"
+            android:id="@+id/senha_edit_text"
+            android:layout_width="305dp"
+            android:layout_height="52dp"
             android:background="@drawable/background_txt_cadastro"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
     <Button
-        android:id="@+id/botaoEntrarVendedor"
+        android:id="@+id/botaoEntrarGerente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="30dp"
         android:backgroundTint="#FAFAFA"
         android:shadowColor="#000000"
         android:text="Entrar"
         android:textAllCaps="false"
         android:textColor="#000000"
-        app:rippleColor="#5F5B63" />
+        app:rippleColor="#676464"
+        />
 
 </LinearLayout>

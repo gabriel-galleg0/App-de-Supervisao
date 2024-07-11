@@ -27,6 +27,21 @@
         tools:src="@drawable/factu_png2"
         tools:srcCompat="@drawable/factu_png2"
         tools:visibility="visible" />
+    <Button
+        android:id="@+id/entrarSupervisao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:backgroundTint="#EEF6F1"
+        android:shadowColor="#000000"
+        android:text="Supervisão"
+        android:textSize="18dp"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        app:rippleColor="#676464"
+        android:layout_marginBottom="8dp"
+        />
 
     <Button
         android:id="@+id/entrarAuditor"
@@ -34,12 +49,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:backgroundTint="#FAFAFA"
+        android:backgroundTint="#8A8A8A"
         android:shadowColor="#000000"
         android:text="Auditor"
         android:textAllCaps="false"
         android:textColor="#000000"
-        app:rippleColor="#676464"/>
+        app:rippleColor="#323131"/>
 
     <Button
         android:id="@+id/entrarVendedor"
@@ -47,12 +62,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:backgroundTint="#FAFAFA"
+        android:backgroundTint="#8A8A8A"
         android:shadowColor="#000000"
         android:text="Vendedor"
         android:textAllCaps="false"
         android:textColor="#000000"
-        app:rippleColor="#676464"
+        app:rippleColor="#FF323131"
         />
 
 </LinearLayout>

@@ -47,6 +47,20 @@
             android:theme="@style/Theme.AppJava"
             android:windowSoftInputMode="adjustPan"
             />
+
+        <activity
+            android:name="Activity.LoginGerente"
+            android:exported="true"
+            android:theme="@style/Theme.AppJava"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <activity
+            android:name="Activity.GerenteVisao"
+            android:exported="true"
+            android:theme="@style/Theme.AppJava"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name="Activity.VendedorActivity"
             android:exported="true"
