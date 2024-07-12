@@ -35,8 +35,8 @@ public class LoginGerente extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_gerente);
-        EdgeToEdge.enable(this);
+        setContentView(R.layout.login_gerente); //xml do layout
+        EdgeToEdge.enable(this); // Método que deixa o layout em fullscreen
 
         autenticacao = ConfigDb.autenticacao();
         inicializar();
@@ -49,6 +49,9 @@ public class LoginGerente extends AppCompatActivity {
         });
     }
 
+    /**
+     * Método de inincialização de variáveis
+     */
     private void inicializar() {
         botaoEntrarGerente = findViewById(R.id.botaoEntrarGerente);
         campoEmail = findViewById(R.id.email);
@@ -57,31 +60,44 @@ public class LoginGerente extends AppCompatActivity {
 
     }
 
+    /**
+     * Método para quando o usuário logar com o email e senha ele irá ser direcionado para a activity do GerenteVisao
+     */
     private void login(){
         Intent intent = new Intent(this, GerenteVisao.class);
         startActivity(intent);
         finish();
     }
 
-    private void logarGerente(View view){
+    /**
+     * Método para logar usuarios que possuem @supervisao.com no email somente
+     * @param view
+     */
+    private void logarGerente(View view) {
         String email = campoEmail.getText().toString();
         String senha = digitaSenha.getText().toString();
 
 
-        if(!email.isEmpty()){
-            Usuario usuario = new Usuario();
-            usuario.setEmail(email);
-            usuario.setSenha(senha);
-            logar(usuario);
-            if(!senha.isEmpty()){
-            }else {
-                Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
+        if (!email.isEmpty()) {
+            if (email.endsWith("@supervisao.com")) { // if para verificar se o email tem @supervisao.com
+                if (!senha.isEmpty()) {
+                Usuario usuario = new Usuario();
+                usuario.setEmail(email);
+                usuario.setSenha(senha);
+                logar(usuario);
+                } else {
+                    Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Somente Supervisores possuem acesso", Toast.LENGTH_SHORT).show();
             }
-        }else{
-            Toast.makeText(this, "Preencha o email", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Método para logar com email e senha
+     * @param usuario
+     */
     private void logar(Usuario usuario) {
         autenticacao.signInWithEmailAndPassword(
                 usuario.getEmail(), usuario.getSenha()
@@ -110,6 +126,10 @@ public class LoginGerente extends AppCompatActivity {
         });
     }
 
+    /**
+     * Salva qual foi o método de login do usuário
+     * @param metodo
+     */
     private void salvaLogin(String metodo) {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

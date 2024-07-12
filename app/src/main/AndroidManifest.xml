@@ -6,6 +6,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -14,9 +15,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECIVE" />
 
-    <permission android:name="app.permission.C2D_MESSAGE"
+    <permission
+        android:name="app.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="app.permission.C2D_MESSAGE"/>
+
+    <uses-permission android:name="app.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -30,41 +33,41 @@
         android:theme="@style/Theme.AppJava"
         tools:targetApi="31">
         <activity
+            android:name="Activity.NavigationDrawer"
+            android:exported="true"
+            android:label="@string/title_activity_navigation_drawer"
+            android:theme="@style/Theme.AppJava.NoActionBar" />
+        <activity
             android:name="Activity.VendedorAcoes"
             android:exported="true"
             android:theme="@style/Theme.AppJava">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
         </activity>
         <activity
             android:name="Activity.SelecionarLojasVendedorActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppJava"/>
+            android:theme="@style/Theme.AppJava" />
         <activity
             android:name="Activity.SelecionarLojasActivity"
             android:exported="true"
             android:theme="@style/Theme.AppJava"
-            android:windowSoftInputMode="adjustPan"
-            />
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="Activity.LoginGerente"
             android:exported="true"
             android:theme="@style/Theme.AppJava"
-            android:windowSoftInputMode="adjustPan"
-            />
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="Activity.GerenteVisao"
             android:exported="true"
             android:theme="@style/Theme.AppJava"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="Activity.VendedorActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppJava"/>
+            android:theme="@style/Theme.AppJava" />
         <activity
             android:name="Activity.AuditorActivity"
             android:exported="true"
@@ -82,8 +85,9 @@
         <activity
             android:name="Activity.LoginAuditorActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppJava">
-        </activity>
+            android:theme="@style/Theme.AppJava"
+            />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="Activity.provider"
@@ -93,16 +97,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_factu_teste"
-            />
+            android:resource="@drawable/ic_factu_teste" />
 
-        <service android:name="Activity.MyFirebaseMessagingService"
-                 android:exported="false">
+        <service
+            android:name="Activity.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

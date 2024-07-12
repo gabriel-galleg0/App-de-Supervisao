@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Função"
         android:textSize="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:padding="8dp"
         />
     <TextView
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Nome do Auditor"
         android:textSize="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:padding="8dp"
         />
     <TextView
@@ -31,7 +31,7 @@
         android:text="PDV"
         android:textAlignment="center"
         android:textSize="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:padding="8dp"
         />
     <TextView
@@ -41,7 +41,7 @@
         android:textAlignment="center"
         android:text="Solicitação"
         android:textSize="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:padding="8dp"
         />
     <TextView
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="Situação"
         android:textSize="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:padding="8dp"
         />
 
