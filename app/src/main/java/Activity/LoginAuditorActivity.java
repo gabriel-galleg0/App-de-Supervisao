@@ -58,6 +58,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
     private CheckBox checkBoxInvasao;
     private CheckBox checkBoxManutencao;
     private CheckBox checkBoxLimpeza;
+    private CheckBox check2, check3;
     private Button salvarInvasao;
     private ImageView imageViewManutencao;
     private Button botaoEnviar;
@@ -75,6 +76,18 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBarAuditor);
         exibirProgressBarr(false);
+
+        check3 = findViewById(R.id.checkBox3);
+        check2 = findViewById(R.id.checkBox2);
+        if(check2.isChecked()){
+            String SOCheck = "Loja sem ocorrência";
+        }else{
+
+        }
+        if(check3.isChecked()){
+            String FPCheck = "Falta de produto";
+        }
+
 
         fotoTiradaLimpeza = findViewById(R.id.fotoTiradaLimpeza);
         salvarLimpeza = findViewById(R.id.salvarLimpeza);
@@ -106,6 +119,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 salvarImagens(nomeLoja);
                 botaoEnviar.setVisibility(View.GONE);
                 exibirProgressBarr(true);
+
 
             }
         });
@@ -524,12 +538,20 @@ public class LoginAuditorActivity extends AppCompatActivity {
     private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, String nomeLoja, StorageReference storageRef) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
+
         String userId = user.getUid();
+
+        String checkInfo = "";
+        if(check2.isChecked()){
+            checkInfo = "Loja sem ocorrência";
+        }else if(check3.isChecked()){
+            checkInfo = "Falta de produto";
+        }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + userId + ".jpg";
+        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + userId + "_" + checkInfo + ".jpg";
         StorageReference imageref = storageRef.child(path);
         UploadTask uploadTask = imageref.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> imageref.getDownloadUrl().addOnCompleteListener(task -> {
@@ -537,6 +559,9 @@ public class LoginAuditorActivity extends AppCompatActivity {
                 Uri downloadUri = task.getResult();
                 Toast.makeText(LoginAuditorActivity.this, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
                 exibirProgressBarr(false);
+                finish();
+                startActivity(new Intent(this, SelecionarLojasActivity.class));
+
                 // Salve o downloadUri no Firebase Database ou execute qualquer outra ação necessária
             } else {
                 Toast.makeText(LoginAuditorActivity.this, "Falha ao obter o URL de download.", Toast.LENGTH_SHORT).show();

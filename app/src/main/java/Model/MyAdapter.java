@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.appjava.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,10 +38,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ImageView ultimoHolder;
+    private FirebaseAuth auth;
+    private String numeroTelefoneUsuario = "";
     public MyAdapter(List<ImageItem> items, Context context, ActivityResultLauncher<Intent> cameraLauncher) {
         this.items = items;
         this.context = context;
         this.cameraLauncher = cameraLauncher;
+        this.auth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if(currentUser!= null && currentUser.getPhoneNumber() != null){
+            numeroTelefoneUsuario = currentUser.getPhoneNumber();
+        }
     }
     /**
      * Método para obter a referencia do ultimo imageView onde foi tirada a foto
@@ -179,7 +188,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
          */
         String uid = FirebaseAuth.getInstance().getUid();
         String nomeImagem = uid +"_"+ System.currentTimeMillis();
-        StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia()+ "_" +nomeImagem+ ".jpg");
+        StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia()+ "_" + numeroTelefoneUsuario + ".jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();

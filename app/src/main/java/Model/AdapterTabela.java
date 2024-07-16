@@ -16,67 +16,88 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
     private List<String> nomesArquivos;
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_ITEM = 1;
+    private boolean exibirProblema; // Flag para controlar qual informação exibir
 
-    public AdapterTabela(List<String> nomesArquivos) {
+    public AdapterTabela(List<String> nomesArquivos, boolean exibirProblema) {
         this.nomesArquivos = nomesArquivos;
+        this.exibirProblema = true;
     }
-
     @NonNull
     @Override
     public TableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == VIEW_TYPE_HEADER){
+        if (viewType == VIEW_TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_layout, parent, false);
             return new TableViewHolder(view);
-        }else{
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_tabela, parent, false);
-        return new TableViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_tabela, parent, false);
+            return new TableViewHolder(view);
+        }
     }
+    public void setExibirProblema(boolean exibirProblema){
+        this.exibirProblema = exibirProblema;
     }
-
+    public boolean getExibirProblema(){
+        return exibirProblema;
+    }
     @Override
     public void onBindViewHolder(@NonNull TableViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_HEADER) {
-
+            // Configurações para o header, se houver
         } else {
             TableViewHolder tableViewHolder = (TableViewHolder) holder;
 
-            String nomeArquivo = nomesArquivos.get(position -1);
+            String nomeArquivo = nomesArquivos.get(position - 1);
 
             if (nomeArquivo.endsWith(".jpg")) {
                 nomeArquivo = nomeArquivo.substring(0, nomeArquivo.length() - 4);
             }
 
             String[] partes = nomeArquivo.split("_");
-            if (partes.length == 3) {
-                tableViewHolder.txtSolicitado.setText(partes[0]);
-                tableViewHolder.txtPDV.setText(partes[1]);
+            if (exibirProblema) {
+                // Configurações para o problema
+                if (partes.length == 3) {
+                    tableViewHolder.txtFunc.setText("Auditor");
+                    tableViewHolder.txtSolicitado.setText(partes[0]);
+                    tableViewHolder.txtPDV.setText(partes[1]);
 
-                String auditornome = nomeAuditor(partes[2]);
-                tableViewHolder.txtNome.setText(auditornome);
-            } else {
-                tableViewHolder.txtFunc.setText(" Auditor ");
-                tableViewHolder.txtPDV.setText("PDV");
-                tableViewHolder.txtSolicitado.setText("Manutenção");
+                    String auditorNome = nomeAuditor(partes[2]);
+                    tableViewHolder.txtNome.setText(auditorNome);
+                } else {
+                    tableViewHolder.txtFunc.setText("Auditor");
+                    tableViewHolder.txtPDV.setText("PDV");
+                    tableViewHolder.txtSolicitado.setText("Manutenção");
+                    tableViewHolder.txtSituacao.setText("Pendente");
+                }
             }
-            tableViewHolder.txtSituacao.setText("Pendente");
+            else {
+                // Configurações para a solução
+                if (partes.length >= 4) {
+                    String nomeVendedor = partes[2];
+                    tableViewHolder.txtNome.setText(nomeVendedor);
+                    tableViewHolder.txtFunc.setText("Vendedor");
+                    tableViewHolder.txtSolicitado.setText(partes[1]);
+                    tableViewHolder.txtPDV.setText(partes[0]);
+
+
+                    tableViewHolder.txtSituacao.setText("Solucionada");
+                }else{
+                    tableViewHolder.txtFunc.setText("Vendedor");
+                    tableViewHolder.txtPDV.setText("PDV");
+                    tableViewHolder.txtSolicitado.setText("Nada");
+                }
+            }
         }
     }
-
+    @Override
     public int getItemViewType(int position) {
-        if(position ==0){
-            return VIEW_TYPE_HEADER;
-        }else{
-            return VIEW_TYPE_ITEM;
-        }
+        return position == 0 ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
     }
-
     @Override
     public int getItemCount() {
         return nomesArquivos.size();
     }
-
-    private String nomeAuditor(String uid){
-        switch(uid){
+    private String nomeAuditor(String uid) {
+        switch (uid) {
             case "NXOit8lkyiVilzvwZOPkdZDwrwE2":
                 return "Patricia";
 
@@ -92,11 +113,10 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
             case "Vtjqx0KJO6RZTySSECr6epRAjsq2":
                 return "Jessica";
 
-                default:
+            default:
                 return "Nome do Auditor";
         }
     }
-
     public static class TableViewHolder extends RecyclerView.ViewHolder {
         TextView txtFunc, txtNome, txtPDV, txtSolicitado, txtSituacao;
 
@@ -107,7 +127,6 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
             txtPDV = itemView.findViewById(R.id.txtPDV);
             txtSolicitado = itemView.findViewById(R.id.txtSolicitado);
             txtSituacao = itemView.findViewById(R.id.txtSituacao);
-
         }
     }
 }

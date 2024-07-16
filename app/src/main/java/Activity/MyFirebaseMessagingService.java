@@ -65,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("body");
-            String iconUrl = remoteMessage.getData().get("icon");  // Supondo que você tenha um campo "icon" nos dados
+            String iconUrl = remoteMessage.getData().get("icon");
 
             showNotification(title, body, iconUrl);
         }
@@ -78,7 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param iconUrl
      */
     private void showNotification(String title, String messageBody, String iconUrl) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SelecionarLojasVendedorActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 

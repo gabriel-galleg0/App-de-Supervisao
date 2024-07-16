@@ -29,6 +29,7 @@
     <TextView
         android:id="@+id/txtPDV"
         android:layout_width="0dp"
+        android:width="200dp"
         android:maxWidth="200dp"
         android:maxLines="2"
         android:ellipsize="none"

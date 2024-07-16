@@ -31,15 +31,16 @@ import Model.AdapterTabela;
 
 public class HomeFragment extends Fragment {
 
-    private Button btnAuditor;
+    private Button btnAuditor, btnVendedor;
     private FragmentHomeBinding binding;
-    private TextView apresentacao;
+    private TextView apresentacao, apresentacaoAuditor, explicacao;
     private RecyclerView recyclerView;
     private AdapterTabela tableAdapter;
     private List<String> nomesArquivos;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private FirebaseAuth auth;
+    private boolean exibirProblema = true; // Flag para controlar qual informação exibir
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,19 +52,51 @@ public class HomeFragment extends Fragment {
 
         // Inicialize as variáveis e configure o RecyclerView
         apresentacao = binding.apresentacao;
+        apresentacaoAuditor = binding.txtExplicacaoAuditor;
+        explicacao = binding.txtExplicacao;
+
+        btnVendedor = binding.btnSelcVendedor;
+        btnVendedor.setBackgroundResource(R.drawable.btn_shape_supervisao);
+
         btnAuditor = binding.btnSelcAuditor;
+        btnAuditor.setBackgroundResource(R.drawable.btn_shape_supervisao);
         recyclerView = binding.recyclerTabela;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         nomesArquivos = new ArrayList<>();
-        tableAdapter = new AdapterTabela(nomesArquivos);
+        tableAdapter = new AdapterTabela(nomesArquivos, exibirProblema);
         recyclerView.setAdapter(tableAdapter);
+        recyclerView.setVisibility(View.GONE);
+
+        apresentacaoAuditor.setVisibility(View.GONE);
+
+        btnAuditor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                explicacao.setVisibility(View.GONE);
+                apresentacaoAuditor.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                tableAdapter.setExibirProblema(true);
+                recuperaNomesArquivos(); // Recupera os nomes de arquivos de "imagensProblema/"
+            }
+        });
+
+        btnVendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                explicacao.setVisibility(View.GONE);
+                apresentacaoAuditor.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                tableAdapter.setExibirProblema(false);
+                recuperaNomesArquivos(); // Recupera os nomes de arquivos de "imagensSolucao/"
+            }
+        });
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         auth = FirebaseAuth.getInstance();
 
-        recuperaNomesArquivos();
+        recuperaNomesArquivos(); // Inicialmente, carrega os nomes de arquivos de "imagensProblema/"
         mostraNomeUsuario();
 
         return root;
@@ -92,22 +125,26 @@ public class HomeFragment extends Fragment {
     }
 
     private void recuperaNomesArquivos() {
-        StorageReference arquivosRef = storageReference.child("imagensProblema/");
+        StorageReference arquivosRef;
+        if (tableAdapter != null && tableAdapter.getExibirProblema()) {
+            arquivosRef = storageReference.child("imagensProblema/");
+        } else {
+            arquivosRef = storageReference.child("imagensSolução/");
+        }
 
         arquivosRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
+                nomesArquivos.clear(); // Limpa a lista atual
                 for (StorageReference item : listResult.getItems()) {
                     String nomeArquivo = item.getName();
-
                     nomesArquivos.add(nomeArquivo);
                 }
 
-                tableAdapter.notifyDataSetChanged();
+                tableAdapter.notifyDataSetChanged(); // Notifica o adapter sobre mudanças
             }
 
         }).addOnFailureListener(new OnFailureListener() {
-
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e("HomeFragment", "Erro ao recuperar arquivos", e);

@@ -64,7 +64,7 @@ public class LoginGerente extends AppCompatActivity {
      * Método para quando o usuário logar com o email e senha ele irá ser direcionado para a activity do GerenteVisao
      */
     private void login(){
-        Intent intent = new Intent(this, GerenteVisao.class);
+        Intent intent = new Intent(this, NavigationDrawer.class);
         startActivity(intent);
         finish();
     }

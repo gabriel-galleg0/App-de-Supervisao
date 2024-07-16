@@ -15,9 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.appjava.R;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,8 @@ public class VendedorAcoes extends AppCompatActivity {
     private List<ImageItem> imageItems = new ArrayList<>();
     private String nomeLojaSelecionada = "";
     private ActivityResultLauncher<Intent> cameraLauncher;
+    private FirebaseAuth auth;
+    private String numeroTelefoneUsuario = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,12 @@ public class VendedorAcoes extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_acoes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         EdgeToEdge.enable(this);
+
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if(currentUser != null && currentUser.getPhoneNumber() != null) {
+         numeroTelefoneUsuario = currentUser.getPhoneNumber();
+        }
         /**
          * ResultActivity da camera
          */
@@ -91,4 +102,5 @@ public class VendedorAcoes extends AppCompatActivity {
             Toast.makeText(VendedorAcoes.this, "Erro ao listar imagens: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
+
 }

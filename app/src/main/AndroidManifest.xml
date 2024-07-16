@@ -36,7 +36,9 @@
             android:name="Activity.NavigationDrawer"
             android:exported="true"
             android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/Theme.AppJava.NoActionBar" />
+            android:theme="@style/Theme.AppJava"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name="Activity.VendedorAcoes"
             android:exported="true"
@@ -56,11 +58,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="Activity.LoginGerente"
-            android:exported="true"
-            android:theme="@style/Theme.AppJava"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="Activity.GerenteVisao"
             android:exported="true"
             android:theme="@style/Theme.AppJava"
             android:windowSoftInputMode="adjustPan" />

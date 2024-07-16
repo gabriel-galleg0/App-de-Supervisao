@@ -56,6 +56,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-base:18.3.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
+
     implementation("com.karumi:dexter:6.2.2")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.google.android.gms:play-services-location:17.0.0")
