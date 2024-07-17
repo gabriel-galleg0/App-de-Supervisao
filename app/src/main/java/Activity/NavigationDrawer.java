@@ -31,9 +31,10 @@ public class NavigationDrawer extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
 
+        EdgeToEdge.enable(this);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        EdgeToEdge.enable(this);
+
 
 
         // Passing each menu ID as a set of Ids because each

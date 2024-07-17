@@ -67,6 +67,21 @@ public class LojaAdapter extends RecyclerView.Adapter<LojaAdapter.LojaViewHolder
                 for (JSONObject loja : lojaListFull) {
                     try {
                         String razaoSocial = loja.getString("RAZAO SOCIAL").toLowerCase();
+                        String rua = loja.getString("RUA").toLowerCase();
+                        String n = loja.getString("N").toLowerCase();
+                        String b = loja.getString("BAIRRO").toLowerCase();
+
+                        if(b.contains(filterPattern)){
+                            filteredList.add(loja);
+                        }
+
+                        if(n.contains(filterPattern)){
+                            filteredList.add(loja);
+                        }
+
+                        if(rua.contains(filterPattern)){
+                            filteredList.add(loja);
+                        }
                         if (razaoSocial.contains(filterPattern)) {
                             filteredList.add(loja);
                         }

@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     private Button btnAuditor, btnVendedor;
     private FragmentHomeBinding binding;
-    private TextView apresentacao, apresentacaoAuditor, explicacao;
+    private TextView apresentacao, apresentacaoAuditor, explicacao, explicaVendedor;
     private RecyclerView recyclerView;
     private AdapterTabela tableAdapter;
     private List<String> nomesArquivos;
@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
         apresentacao = binding.apresentacao;
         apresentacaoAuditor = binding.txtExplicacaoAuditor;
         explicacao = binding.txtExplicacao;
+        explicaVendedor = binding.txtExplicacaoVendedor;
 
         btnVendedor = binding.btnSelcVendedor;
         btnVendedor.setBackgroundResource(R.drawable.btn_shape_supervisao);
@@ -69,11 +70,13 @@ public class HomeFragment extends Fragment {
         recyclerView.setVisibility(View.GONE);
 
         apresentacaoAuditor.setVisibility(View.GONE);
+        explicaVendedor.setVisibility(View.GONE);
 
         btnAuditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 explicacao.setVisibility(View.GONE);
+                explicaVendedor.setVisibility(View.GONE);
                 apresentacaoAuditor.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 tableAdapter.setExibirProblema(true);
@@ -86,6 +89,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 explicacao.setVisibility(View.GONE);
                 apresentacaoAuditor.setVisibility(View.GONE);
+                explicaVendedor.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 tableAdapter.setExibirProblema(false);
                 recuperaNomesArquivos(); // Recupera os nomes de arquivos de "imagensSolucao/"

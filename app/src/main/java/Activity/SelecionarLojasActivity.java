@@ -1,8 +1,10 @@
 package Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -68,6 +70,11 @@ public class SelecionarLojasActivity extends AppCompatActivity {
          */
         searchViewLojas = findViewById(R.id.searchViewLojas);
         searchViewRegioes = findViewById(R.id.searchViewRegiao);
+        AutoCompleteTextView searchTxt = searchViewLojas.findViewById(androidx.appcompat.R.id.search_src_text);
+       if(searchTxt != null){
+        int corTxt = Color.WHITE;
+        searchTxt.setTextColor(corTxt);
+       }
 
         recyclerViewLojas = findViewById(R.id.recyclerViewLojas);
         recyclerViewRegioes = findViewById(R.id.recyclerViewRegiao);

@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AppJava" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+    <style name="Base.Theme.AppJava" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cor</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
@@ -10,7 +11,7 @@
     <style name="Theme.AppJava.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/cor</item>
+
     </style>
 
     <style name="Theme.AppJava.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

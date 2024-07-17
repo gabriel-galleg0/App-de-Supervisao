@@ -20,7 +20,7 @@
         android:layout_width="140dp"
         android:maxWidth="135dp"
         android:layout_height="wrap_content"
-        android:text="Nome do Auditor"
+        android:text="Funcionário"
         android:textSize="16dp"
         android:textColor="@color/white"
         android:padding="8dp"

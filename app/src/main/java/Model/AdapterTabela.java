@@ -59,7 +59,7 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
                     tableViewHolder.txtFunc.setText("Auditor");
                     tableViewHolder.txtSolicitado.setText(partes[0]);
                     tableViewHolder.txtPDV.setText(partes[1]);
-
+                    tableViewHolder.txtSituacao.setText("Pendente");
                     String auditorNome = nomeAuditor(partes[2]);
                     tableViewHolder.txtNome.setText(auditorNome);
                 } else {
@@ -71,7 +71,7 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
             }
             else {
                 // Configurações para a solução
-                if (partes.length >= 4) {
+                if (partes.length >= 3) {
                     String nomeVendedor = partes[2];
                     tableViewHolder.txtNome.setText(nomeVendedor);
                     tableViewHolder.txtFunc.setText("Vendedor");

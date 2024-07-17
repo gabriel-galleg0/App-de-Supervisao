@@ -57,13 +57,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.15"
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/txtExplicacaoAuditor"
         android:layout_width="309dp"
         android:layout_height="61dp"
         android:text="Tabela contendo as pendências registradas por nossos auditores."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+    <TextView
+        android:id="@+id/txtExplicacaoVendedor"
+        android:layout_width="309dp"
+        android:layout_height="61dp"
+        android:text="Tabela contendo as soluções registradas pelos Vendedores."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

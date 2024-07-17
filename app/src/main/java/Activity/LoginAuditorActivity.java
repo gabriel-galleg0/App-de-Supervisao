@@ -37,12 +37,16 @@ import android.net.Uri;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginAuditorActivity extends AppCompatActivity {
 
@@ -489,6 +493,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
     private void salvarImagens(String nomeLoja) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://appjava1-2968b.appspot.com");
+        boolean imagemSalva = false;
         /**
          * Verifica se tem alguma imagem no ImageView, nesse caso de Invasão, e encaminha para o FireBaseStorage
          */
@@ -497,6 +502,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 salvarImagemNoFirebase(bitmap, "Invasao", nomeLoja, storageRef);
+                imagemSalva = true;
             } else {
                 //Não sei como fazer um método para tratar o erro caso o drawble não esteja em bitmap
                 //Aqui seria legal implementar um tratamento de erro né
@@ -511,6 +517,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 salvarImagemNoFirebase(bitmap, "Manutencao", nomeLoja, storageRef);
+                imagemSalva = true;
             } else {
               //Mesma coisa que no método anterior
             }
@@ -523,11 +530,45 @@ public class LoginAuditorActivity extends AppCompatActivity {
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 salvarImagemNoFirebase(bitmap, "Limpeza", nomeLoja, storageRef);
+                imagemSalva = true;
             } else {
                 //Continuo sem saber como fazer
             }
+
+            if(!imagemSalva && (check2.isChecked() || check3.isChecked())){
+                salvarInfoCheck(nomeLoja);
+            }
         }
     }
+
+    public void salvarInfoCheck(String nomeLoja){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            String userId = user.getUid();
+            String checkInfo = "";
+            if(check2.isChecked()){
+                checkInfo = "Loja sem ocorrência";
+            }else if(check3.isChecked()){
+                checkInfo = "Falta de produto";
+             }
+
+            DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("auditoria");
+            String key = dataRef.push().getKey();
+            if(key != null){
+                Map<String, Object> info = new HashMap<>();
+                info.put("nomeLoja", nomeLoja);
+                info.put("userId", userId);
+                info.put("checkInfo", checkInfo);
+
+                dataRef.child(key).setValue(info).addOnCompleteListener(task -> {
+                    Toast.makeText(LoginAuditorActivity.this, "Dados salvos com sucesso!", Toast.LENGTH_SHORT).show();
+                    exibirProgressBarr(false);
+                    finish();
+                    startActivity(new Intent(this, SelecionarLojasActivity.class));
+                }).addOnFailureListener(e -> Toast.makeText(LoginAuditorActivity.this, "Falha ao salvar os dados.", Toast.LENGTH_SHORT).show());
+            }
+        }
+        }
     /**
      * Salva a imagem no Firebase Storage
      * @param bitmap
