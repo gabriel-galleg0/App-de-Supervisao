@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 
 import Model.Usuario;
 import Util.ConfigDb;
@@ -41,7 +42,7 @@ public class LoginGerente extends AppCompatActivity {
         autenticacao = ConfigDb.autenticacao();
         inicializar();
 
-        botaoEntrarGerente.setOnClickListener(new View.OnClickListener(){
+        botaoEntrarGerente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logarGerente(v);
@@ -63,7 +64,7 @@ public class LoginGerente extends AppCompatActivity {
     /**
      * Método para quando o usuário logar com o email e senha ele irá ser direcionado para a activity do GerenteVisao
      */
-    private void login(){
+    private void login() {
         Intent intent = new Intent(this, NavigationDrawer.class);
         startActivity(intent);
         finish();
@@ -71,6 +72,7 @@ public class LoginGerente extends AppCompatActivity {
 
     /**
      * Método para logar usuarios que possuem @supervisao.com no email somente
+     *
      * @param view
      */
     private void logarGerente(View view) {
@@ -81,10 +83,10 @@ public class LoginGerente extends AppCompatActivity {
         if (!email.isEmpty()) {
             if (email.endsWith("@supervisao.com")) { // if para verificar se o email tem @supervisao.com
                 if (!senha.isEmpty()) {
-                Usuario usuario = new Usuario();
-                usuario.setEmail(email);
-                usuario.setSenha(senha);
-                logar(usuario);
+                    Usuario usuario = new Usuario();
+                    usuario.setEmail(email);
+                    usuario.setSenha(senha);
+                    logar(usuario);
                 } else {
                     Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
                 }
@@ -96,6 +98,7 @@ public class LoginGerente extends AppCompatActivity {
 
     /**
      * Método para logar com email e senha
+     *
      * @param usuario
      */
     private void logar(Usuario usuario) {
@@ -104,19 +107,19 @@ public class LoginGerente extends AppCompatActivity {
         ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     salvaLogin("emailPassword");
                     login();
-                }else {
-                    String execao ="";
+                } else {
+                    String execao = "";
                     try {
                         throw task.getException();
-                    }catch(FirebaseAuthInvalidUserException e){
+                    } catch (FirebaseAuthInvalidUserException e) {
 
                         execao = "Usuário não cadastrado";
-                    }catch (FirebaseAuthInvalidCredentialsException e){
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
                         execao = "Email ou senha incorretos";
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         execao = "Erro ao logar" + e.getMessage();
                         e.printStackTrace();
                     }
@@ -128,6 +131,7 @@ public class LoginGerente extends AppCompatActivity {
 
     /**
      * Salva qual foi o método de login do usuário
+     *
      * @param metodo
      */
     private void salvaLogin(String metodo) {
@@ -140,5 +144,26 @@ public class LoginGerente extends AppCompatActivity {
     private String getMethod() {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         return preferences.getString("login_method", "");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
+        if (usuarioLogado != null) {
+            String email = usuarioLogado.getEmail();
+            if (email != null && "emailPassword".equals(getMethod())) {
+                if (email.endsWith("@supervisao.com")) {
+                    startActivity(new Intent(this, NavigationDrawer.class));
+                    finish();
+                } else {
+                    FirebaseAuth.getInstance().signOut();
+                    finish();
+                }
+            } else {
+                FirebaseAuth.getInstance().signOut();
+                finish();
+            }
+        }
     }
 }

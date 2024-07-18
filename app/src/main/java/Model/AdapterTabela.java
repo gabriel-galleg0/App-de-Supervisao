@@ -55,7 +55,7 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
             String[] partes = nomeArquivo.split("_");
             if (exibirProblema) {
                 // Configurações para o problema
-                if (partes.length == 3) {
+                if (partes.length >= 3) {
                     tableViewHolder.txtFunc.setText("Auditor");
                     tableViewHolder.txtSolicitado.setText(partes[0]);
                     tableViewHolder.txtPDV.setText(partes[1]);
@@ -72,7 +72,7 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
             else {
                 // Configurações para a solução
                 if (partes.length >= 3) {
-                    String nomeVendedor = partes[2];
+                    String nomeVendedor = nomeVendas(partes[2]);
                     tableViewHolder.txtNome.setText(nomeVendedor);
                     tableViewHolder.txtFunc.setText("Vendedor");
                     tableViewHolder.txtSolicitado.setText(partes[1]);
@@ -94,7 +94,18 @@ public class AdapterTabela extends RecyclerView.Adapter<AdapterTabela.TableViewH
     }
     @Override
     public int getItemCount() {
-        return nomesArquivos.size();
+        return nomesArquivos.size() + 1;
+    }
+
+    public String nomeVendas(String nomeVendedor){
+        switch (nomeVendedor){
+            case "+5511945080576":
+                return "Gabriel Gallego";
+
+        default:
+            return "Nome do Vendedor";
+
+    }
     }
     private String nomeAuditor(String uid) {
         switch (uid) {

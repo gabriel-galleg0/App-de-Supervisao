@@ -33,6 +33,7 @@ public class AuditorActivity extends AppCompatActivity {
     Button botaoEntrar;
     FirebaseAuth autenticacao;
     EditText campoEmail, campoSenha;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,9 @@ public class AuditorActivity extends AppCompatActivity {
                     v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
                     return insets;
                 }
-        );}
+        );
+    }
+
     /**
      * Método responsável por navegar para a tela de seleção de lojas
      */
@@ -65,33 +68,37 @@ public class AuditorActivity extends AppCompatActivity {
     /**
      * Método responsável por inicializar os componentes da tela
      */
-    private void incicializar(){
+    private void incicializar() {
         campoEmail = findViewById(R.id.email);
         campoSenha = findViewById(R.id.Senha);
         botaoEntrar = findViewById(R.id.botaoEntrar);
     }
+
     /**
      * Método responsável por realizar o login do usuário
+     *
      * @param view
      */
-    private void logarUsuario(View view){
+    private void logarUsuario(View view) {
         String email = campoEmail.getText().toString();
         String senha = campoSenha.getText().toString();
-        if(!email.isEmpty()){
+        if (!email.isEmpty()) {
             Usuario usuario = new Usuario();
             usuario.setEmail(email);
             usuario.setSenha(senha);
             logar(usuario);
-            if(!senha.isEmpty()){
-            }else {
+            if (!senha.isEmpty()) {
+            } else {
                 Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             Toast.makeText(this, "Preencha o email", Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
      * Método responsável por realizar o login do usuário no Firebase
+     *
      * @param usuario
      */
     private void logar(Usuario usuario) {
@@ -100,19 +107,19 @@ public class AuditorActivity extends AppCompatActivity {
         ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     salvaLogin("emailPassword");
                     login();
-                }else {
-                    String execao ="";
+                } else {
+                    String execao = "";
                     try {
                         throw task.getException();
-                    }catch(FirebaseAuthInvalidUserException e){
+                    } catch (FirebaseAuthInvalidUserException e) {
 
                         execao = "Usuário não cadastrado";
-                    }catch (FirebaseAuthInvalidCredentialsException e){
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
                         execao = "Email ou senha incorretos";
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         execao = "Erro ao logar" + e.getMessage();
                         e.printStackTrace();
                     }
@@ -138,13 +145,20 @@ public class AuditorActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser usuarioLogado = FirebaseAuth.getInstance().getCurrentUser();
-        if(usuarioLogado != null){
-            if("emailPassword".equals(getMethod())) {
-            startActivity(new Intent(this, SelecionarLojasActivity.class));
-        }else{
+        if (usuarioLogado != null) {
+            String email = usuarioLogado.getEmail();
+            if (email != null && "emailPassword".equals(getMethod())) {
+                if (email.endsWith("@factuapp.com")) {
+                    startActivity(new Intent(this, SelecionarLojasActivity.class));
+                    finish();
+                } else {
+                    FirebaseAuth.getInstance().signOut();
+                    finish();
+                }
+            } else {
                 FirebaseAuth.getInstance().signOut();
+                finish();
             }
-            finish();
-    }
+        }
     }
 }

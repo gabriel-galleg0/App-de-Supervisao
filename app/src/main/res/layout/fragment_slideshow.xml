@@ -3,20 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ABABAB"
     android:fitsSystemWindows="true"
     tools:context="Activity.ui.slideshow.SlideshowFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <SearchView
+        android:id="@+id/searchViewContatos"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:background="@drawable/searchview_bg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Buscar Vendedor"
+        android:theme="@style/AppTheme.SearchView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.085"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewContatos"
+        android:layout_width="383dp"
+        android:layout_height="409dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.384"
+        tools:listitem="@layout/rv_item_contact"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
