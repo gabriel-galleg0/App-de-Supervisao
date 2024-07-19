@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="Activity.ui.gallery.GalleryFragment"
+        android:name="Activity.ui.gallery.GaleriaDeFotosFg"
         android:label="Galeria de Fotos"
         tools:layout="@layout/fragment_gallery" />
 

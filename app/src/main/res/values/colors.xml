@@ -3,4 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cor">#5A0F0F</color>
+    <color name="vermelho">#981010</color>
+    <color name="verde">#22A250</color>
+    <color name="invasao">#9C27B0</color>
+    <color name="manutencao">#FF5722</color>
+    <color name="Limpeza">#2196F3</color>
 </resources>

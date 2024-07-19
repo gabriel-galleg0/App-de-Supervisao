@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.appjava.databinding.FragmentGalleryBinding;
 
-public class GalleryFragment extends Fragment {
+public class GaleriaDeFotosFg extends Fragment {
+
 
     private FragmentGalleryBinding binding;
 
@@ -25,8 +26,6 @@ public class GalleryFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

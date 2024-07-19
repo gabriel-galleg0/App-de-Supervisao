@@ -3,6 +3,7 @@ package Model;
 public class User {
     private String nome;
     private String phoneNumber;
+    private String funcao;
 
     public User(){
 
@@ -11,6 +12,13 @@ public class User {
     public User(String nome, String phoneNumber){
         this.nome = nome;
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getFuncao(){
+        return funcao;
+    }
+    public void setFuncao(String funcao){
+        this.funcao = funcao;
     }
 
     public String getNome(){

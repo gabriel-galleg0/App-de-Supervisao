@@ -55,7 +55,9 @@ public class SlideshowFragment extends Fragment {
                 users.clear();
                 for(DataSnapshot ds : snapshot.getChildren()){
                     User user = ds.getValue(User.class);
-                    users.add(user);
+                    if(user!=null && user.getFuncao() == null){
+                        users.add(user);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }

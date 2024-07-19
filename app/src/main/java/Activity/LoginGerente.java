@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import Model.Usuario;
 import Util.ConfigDb;
@@ -110,6 +113,10 @@ public class LoginGerente extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     salvaLogin("emailPassword");
                     login();
+                    FirebaseUser firebaseUser = autenticacao.getCurrentUser();
+                    if(firebaseUser != null){
+                        salvarToken(firebaseUser);
+                    }
                 } else {
                     String execao = "";
                     try {
@@ -125,6 +132,25 @@ public class LoginGerente extends AppCompatActivity {
                     }
                     Toast.makeText(LoginGerente.this, execao, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    private void salvarToken(FirebaseUser firebaseUser){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(LoginGerente.this, "Não foi possivel obter o token", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String token = task.getResult();
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+                databaseReference.child("fcmToken").setValue(token);
+                databaseReference.child("phoneNumber").setValue(null);
+                databaseReference.child("smsVerified").setValue(true);
+                login();
             }
         });
     }
