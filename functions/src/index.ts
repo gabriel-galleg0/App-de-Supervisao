@@ -17,7 +17,7 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
     return null;
   }
   const arquivoNome = path.basename(caminhoArquivo);
-  const [, local] = arquivoNome.split("_");
+  const [, local, regiao] = arquivoNome.split("_");
 
   try {
     const snapshot = await admin.database().ref("users").orderByChild(
@@ -45,12 +45,16 @@ export const notFoto = functions.storage.object().onFinalize(async (object) => {
     }
     const iconUrl = "https://firebasestorage.googleapis.com/v0/b/appjava1-2968b.appspot.com/o/factulogo.webp?alt=media&token=fc17aa6d-9002-4d93-8ea0-620e8c7e51aa";
 
+    const notificationId = Date.now().toString();
+
     // Payload da notificação a ser enviada
     const payload = {
       data: {
         title: "Nova foto foi adicionada",
-        body: `Uma nova ocorrência adicionada em ${local.replace(/_/g, " " )}`,
+        body: `Uma nova ocorrência adicionada em ${local.replace(/_/g, " " )} 
+        na região ${regiao.replace(/_/g, " ")}`,
         icon: iconUrl,
+        notification_id: notificationId,
       },
     };
 

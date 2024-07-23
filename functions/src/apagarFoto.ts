@@ -13,11 +13,9 @@ exports.apagaFotoAntiga = functions.storage.object().onFinalize(
     }
 
     const fileName = path.basename(filePath);
-    const [newPhotoPart1, newPhotoPart2WithExtension] = fileName.split("_");
-    const newPhotoPart2 = newPhotoPart2WithExtension ?
-      newPhotoPart2WithExtension.split(".")[0] : null;
+    const [newPhotoPart1, newPhotoPart2, newPhotoRest] = fileName.split("_");
 
-    if (!newPhotoPart1 || !newPhotoPart2) {
+    if (!newPhotoPart1 || !newPhotoPart2 || !newPhotoRest) {
       console.log("Formato de nome de arquivo inválido:", fileName);
       return null;
     }
@@ -27,10 +25,14 @@ exports.apagaFotoAntiga = functions.storage.object().onFinalize(
       const [files] = await bucket.getFiles();
       const filesToDelete = files.filter((file) => {
         const oldFileName = path.basename(file.name);
-        const [oldPhotoPart1] = oldFileName.split("_");
+        const [oldPhotoPart1, oldPhotoPart2] = oldFileName.split("_");
 
-        return oldPhotoPart1 &&
-        newPhotoPart2 && oldPhotoPart1 === newPhotoPart2;
+        return (
+          oldPhotoPart1 &&
+          oldPhotoPart2 &&
+          oldPhotoPart1.toLowerCase() === newPhotoPart2.toLowerCase() &&
+          oldPhotoPart2.toLowerCase() === newPhotoPart1.toLowerCase()
+        );
       });
 
       for (const file of filesToDelete) {
@@ -42,4 +44,5 @@ exports.apagaFotoAntiga = functions.storage.object().onFinalize(
     }
 
     return null;
-  });
+  }
+);

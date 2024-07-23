@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
+
     }
     /**
      *
@@ -73,14 +76,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ImageItem imageItem = items.get(position);
+
         if (imageItem != null) {
             holder.pendenciaTextView.setText(imageItem.getPendencia());
             /**
              * Método para carregar imagens do FireBase Storage
              */
             StorageReference storageRef = imageItem.getStorageReference();
-            if (storageRef != null && holder.itemView.getContext() != null) {
-                Glide.with(holder.itemView.getContext()).load(storageRef).into(holder.imageView);
+            if (storageRef != null) {
+                Glide.with(holder.itemView.getContext())
+                .load(storageRef)
+                .into(holder.imageView);
+                Log.d("MyAdapter", "carregando" + storageRef.getPath());
             }
         }
         /**
@@ -96,7 +103,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.botaoSalvar.setOnClickListener(v -> {
             if (ultimoHolder != null) {
                 Bitmap bitmap = ((BitmapDrawable) ultimoHolder.getDrawable()).getBitmap();
-                uploadImageToFirebase(bitmap, imageItem);
+                uploadImageToFirebase(bitmap, imageItem, holder);
+                holder.pgb.setVisibility(View.VISIBLE);
+                holder.botaoSalvar.setVisibility(View.GONE);
             } else {
                 Toast.makeText(context, "Nenhuma imagem capturada", Toast.LENGTH_SHORT).show();
             }
@@ -151,12 +160,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Button botaoSalvar;
         ImageView recNova;
         TextView pendenciaTextView;
+        ProgressBar pgb;
         /**
          * Método construtor do ViewHolder
          * @param itemView
          */
         public ViewHolder(View itemView) {
             super(itemView);
+            pgb = itemView.findViewById(R.id.progress_vendedor);
+            pgb.setVisibility(View.GONE);
             imageView = itemView.findViewById(R.id.recAntesFoto);
             botaoCamera = itemView.findViewById(R.id.recFoto);
             botaoSalvar = itemView.findViewById(R.id.recSalvar);
@@ -180,7 +192,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
      * @param imageBitmap
      * @param imageItem
      */
-    private void uploadImageToFirebase(Bitmap imageBitmap, ImageItem imageItem) {
+    private void uploadImageToFirebase(Bitmap imageBitmap, ImageItem imageItem, ViewHolder holder) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         /*
@@ -197,6 +209,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             imagesRef.getDownloadUrl().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
+                    holder.pgb.setVisibility(View.GONE);;
                 } else {
                     Toast.makeText(context, "Falha ao obter o URL de download.", Toast.LENGTH_SHORT).show();
                 }

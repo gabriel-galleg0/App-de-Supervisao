@@ -10,11 +10,12 @@ public class ImageItem {
     private String pendencia;
     private StorageReference storageReference;
 
-    public ImageItem(String nomePdv, String pendencia, StorageReference storageReference) {
+    public ImageItem(String nomePdv,String pendencia, StorageReference storageReference) {
         this.nomePdv = nomePdv;
         this.pendencia = pendencia;
         this.storageReference = storageReference;
     }
+
     public String getNomePdv() {
         return nomePdv;
     }

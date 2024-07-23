@@ -72,8 +72,8 @@ public class SelecionarLojasActivity extends AppCompatActivity {
         searchViewRegioes = findViewById(R.id.searchViewRegiao);
         AutoCompleteTextView searchTxt = searchViewLojas.findViewById(androidx.appcompat.R.id.search_src_text);
        if(searchTxt != null){
-        int corTxt = Color.WHITE;
-        searchTxt.setTextColor(corTxt);
+        searchTxt.setTextColor(Color.WHITE);
+
        }
 
         recyclerViewLojas = findViewById(R.id.recyclerViewLojas);
@@ -250,6 +250,7 @@ public class SelecionarLojasActivity extends AppCompatActivity {
             Intent intent = new Intent(SelecionarLojasActivity.this, LoginAuditorActivity.class);
             intent.putExtra("nome_loja", selectedLojaObject.optString("RAZAO SOCIAL"));
             intent.putExtra("dados_loja", selectedLojaObject.toString());
+            intent.putExtra("regiao_selecionada", selectedRegiao);
             startActivity(intent);
         } else {
             Toast.makeText(SelecionarLojasActivity.this, "Selecione uma loja antes de prosseguir", Toast.LENGTH_SHORT).show();

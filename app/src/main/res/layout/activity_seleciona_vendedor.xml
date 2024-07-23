@@ -83,7 +83,6 @@
         app:strokeColor="#FF0000" />
 
     <SearchView
-        style="@style/AppTheme.SearchView"
         android:id="@+id/searchViewRegiao"
         android:layout_width="380dp"
         android:layout_height="48dp"

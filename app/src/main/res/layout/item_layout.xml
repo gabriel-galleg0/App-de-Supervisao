@@ -23,6 +23,17 @@
         app:rippleColor="#3F4B6F"
         tools:visibility="visible" />
 
+    <ProgressBar
+        android:id="@+id/progress_vendedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.967" />
+
     <Button
         android:id="@+id/recSalvar"
         android:layout_width="89dp"

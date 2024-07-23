@@ -72,11 +72,9 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
          */
         searchViewLojas = findViewById(R.id.searchViewLojas);
         searchViewRegioes = findViewById(R.id.searchViewRegiao);
-        AutoCompleteTextView searchTxt = searchViewLojas.findViewById(androidx.appcompat.R.id.search_src_text);
-        if(searchTxt != null){
-            int corTxt = Color.WHITE;
-            searchTxt.setTextColor(corTxt);
-        }
+
+        setSearchViewCor(searchViewLojas, Color.WHITE);
+        setSearchViewCor(searchViewRegioes, Color.WHITE);
 
         recyclerViewLojas = findViewById(R.id.recyclerViewLojas);
         recyclerViewRegioes = findViewById(R.id.recyclerViewRegiao);
@@ -126,6 +124,12 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    private void setSearchViewCor(SearchView searchView, int color){
+        AutoCompleteTextView searchTxt = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        if(searchTxt != null){
+         searchTxt.setTextColor(color);
+        }
     }
 
     /**

@@ -52,6 +52,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private String nomeLoja;
+    private String regiao_selec;
     private FloatingActionButton botaoCameraManutencao;
     private ImageView imageView;
     private FloatingActionButton captureButton;
@@ -92,7 +93,6 @@ public class LoginAuditorActivity extends AppCompatActivity {
             String FPCheck = "Falta de produto";
         }
 
-
         fotoTiradaLimpeza = findViewById(R.id.fotoTiradaLimpeza);
         salvarLimpeza = findViewById(R.id.salvarLimpeza);
         salvarManutencao = findViewById(R.id.salvarManutencao);
@@ -112,7 +112,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             nomeLoja= intent.getStringExtra("nome_loja");
-            String dadosLojaJson = intent.getStringExtra("dados_loja");
+            regiao_selec = intent.getStringExtra("regiao_selecionada");
         }
         /**
          * Botão que salva as imagens
@@ -120,7 +120,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
         botaoEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                salvarImagens(nomeLoja);
+                salvarImagens(nomeLoja, regiao_selec);
                 botaoEnviar.setVisibility(View.GONE);
                 exibirProgressBarr(true);
 
@@ -490,7 +490,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
      * Salva as imagens no Firebase Storage
      * @param nomeLoja
      */
-    private void salvarImagens(String nomeLoja) {
+    private void salvarImagens(String nomeLoja, String regiao) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://appjava1-2968b.appspot.com");
         boolean imagemSalva = false;
@@ -501,7 +501,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             Drawable drawable = imageView.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "Invasao", nomeLoja, storageRef);
+                salvarImagemNoFirebase(bitmap, "Invasao", nomeLoja, regiao, storageRef);
                 imagemSalva = true;
             } else {
                 //Não sei como fazer um método para tratar o erro caso o drawble não esteja em bitmap
@@ -516,7 +516,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             Drawable drawable = imageViewManutencao.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "Manutencao", nomeLoja, storageRef);
+                salvarImagemNoFirebase(bitmap, "Manutencao", nomeLoja, regiao, storageRef);
                 imagemSalva = true;
             } else {
               //Mesma coisa que no método anterior
@@ -529,7 +529,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
             Drawable drawable = fotoTiradaLimpeza.getDrawable();
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                salvarImagemNoFirebase(bitmap, "Limpeza", nomeLoja, storageRef);
+                salvarImagemNoFirebase(bitmap, "Limpeza", nomeLoja, regiao, storageRef);
                 imagemSalva = true;
             } else {
                 //Continuo sem saber como fazer
@@ -576,7 +576,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
      * @param nomeLoja
      * @param storageRef
      */
-    private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, String nomeLoja, StorageReference storageRef) {
+    private void salvarImagemNoFirebase(Bitmap bitmap, String tipo, String nomeLoja, String regiao, StorageReference storageRef) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
 
@@ -592,7 +592,7 @@ public class LoginAuditorActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + userId + "_" + checkInfo + ".jpg";
+        String path = "imagensProblema/" + tipo + "_" + nomeLoja + "_" + regiao + "_" + userId + "_" + checkInfo + ".jpg";
         StorageReference imageref = storageRef.child(path);
         UploadTask uploadTask = imageref.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> imageref.getDownloadUrl().addOnCompleteListener(task -> {

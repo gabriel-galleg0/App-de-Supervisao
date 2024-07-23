@@ -66,20 +66,43 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("body");
             String iconUrl = remoteMessage.getData().get("icon");
+            String notificationId = remoteMessage.getData().get("notification_id");
 
-            showNotification(title, body, iconUrl);
+            long notificationIdLong = Long.parseLong(notificationId);
+
+            showNotification(notificationIdLong, title, body, iconUrl);
         }
     }
 
     /**
      * Método que vai exibir as notificações com base nos dados que foram recebidos
+     * @param notificationIdLong
      * @param title
      * @param messageBody
      * @param iconUrl
      */
-    private void showNotification(String title, String messageBody, String iconUrl) {
-        Intent intent = new Intent(this, SelecionarLojasVendedorActivity.class);
+    private void showNotification(long notificationIdLong, String title, String messageBody, String iconUrl) {
+        Log.d("Notification", "Menssagem " + messageBody);
+
+        String[] partes = messageBody.split(" ");
+        String lojas = "";
+        String regiao = "";
+
+        if(partes.length > 5){
+            regiao = partes[partes.length - 1];
+            lojas = partes[5];
+
+            for (int i = 6; i < partes.length -4; i++) {
+             lojas += " " + partes[i];
+            }
+        }
+
+        Log.d("Notification", "Loja: "  + lojas + "Regiao " + regiao);
+
+        Intent intent = new Intent(this, VendedorAcoes.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("regiao", regiao);
+        intent.putExtra("nome_loja", lojas);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -99,7 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                             notificationBuilder.setLargeIcon(resource);  // Define o ícone grande da notificação
                             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                            notificationManager.notify(0, notificationBuilder.build());
+                            notificationManager.notify((int)notificationIdLong, notificationBuilder.build());
                         }
 
                         @Override
