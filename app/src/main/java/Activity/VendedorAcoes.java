@@ -30,10 +30,7 @@ import java.util.List;
 import Model.ImageItem;
 import Model.MyAdapter;
 public class VendedorAcoes extends AppCompatActivity {
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private Button botaoFormulario;
-    private ProgressBar carrega;
-    private String regiaoSelecionada = "";
     private RecyclerView recyclerView;
     private MyAdapter adapter;
     private List<ImageItem> imageItems = new ArrayList<>();
@@ -52,7 +49,6 @@ public class VendedorAcoes extends AppCompatActivity {
         /**
          * inicizlador das variáveis
          */
-
         botaoFormulario = findViewById(R.id.botaoEnviarVendedor);
         recyclerView = findViewById(R.id.rv_acoes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,7 +59,6 @@ public class VendedorAcoes extends AppCompatActivity {
         if (currentUser != null && currentUser.getPhoneNumber() != null) {
             numeroTelefoneUsuario = currentUser.getPhoneNumber();
         }
-
 
         botaoFormulario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,45 +92,39 @@ public class VendedorAcoes extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         if (getIntent().hasExtra("nome_loja")) {
+
             nomeLojaSelecionada = getIntent().getStringExtra("nome_loja");
             Log.d("VendedorAcoes", "Nome da loja selecionada: " + nomeLojaSelecionada);
+            carregarRecycler(nomeLojaSelecionada);
             nomePdv.setText(nomeLojaSelecionada);
-
-        } else {
-
         }
-
-
-        /**
-         * Instancias do FireBaseStorage e StorageReference
-         */
-
+     }
+    private void carregarRecycler(String nomeLojaSelecionada) {
+        RecyclerView recyclerView = findViewById(R.id.rv_acoes);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("imagensProblema/");
 
-        Log.d("VendedorAcoes", "Storage " + storageRef.getPath());
         storageRef.listAll().addOnSuccessListener(listResult -> {
             imageItems.clear();
+
             for (StorageReference item : listResult.getItems()) {
-                String nomeDaImagem = item.getName();
+                String nomeArquivo = item.getName();
+                String[] dividido = nomeArquivo.split("_");
 
-                String[] partesNome = nomeDaImagem.split("_");
-                if (partesNome.length >= 4) {
+                if (dividido.length >= 4) {
+                    String lojaNome = dividido[1];
+                    Log.d("VendedorAcoes", "Nome da loja: " + lojaNome + " Nome da loja selecionada: " + nomeLojaSelecionada);
 
-                    String lojaNome = partesNome[1];
-
-                    if (lojaNome.equals(nomeLojaSelecionada)) {
-                        String pendencia = partesNome[0];
-                        ImageItem imageItem = new ImageItem(nomeDaImagem, pendencia, item);
+                    if (nomeLojaSelecionada.contains(lojaNome)) {
+                        String pendencia = dividido[0];
+                        ImageItem imageItem = new ImageItem(nomeLojaSelecionada, pendencia, item);
                         imageItems.add(imageItem);
-                        Log.d("VendedorAcoes", "Nome da imagem: " + nomeDaImagem);
                     }
                 }
             }
             adapter.notifyDataSetChanged();
-        }).addOnFailureListener(e -> {
-            Toast.makeText(VendedorAcoes.this, "Erro ao listar imagens: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 }

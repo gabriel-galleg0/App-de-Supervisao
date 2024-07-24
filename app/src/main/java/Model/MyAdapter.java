@@ -131,8 +131,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Display display = windowManager.getDefaultDisplay();
         Point screenSize = new Point();
         display.getSize(screenSize);
-        int width = (int) (screenSize.x * 0.9);
-        int height = (int) (screenSize.y * 0.9);
         /**
          * Define o tamanho da imageView para dentro do AlertDialog
          */
@@ -193,27 +191,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
      * @param imageItem
      */
     private void uploadImageToFirebase(Bitmap imageBitmap, ImageItem imageItem, ViewHolder holder) {
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         /*
         Pega o uid do usuário que esta enviando a imagem pro firebase
-         */
-        String uid = FirebaseAuth.getInstance().getUid();
-        String nomeImagem = uid +"_"+ System.currentTimeMillis();
-        StorageReference imagesRef = storageRef.child("imagensSolução/" +imageItem.getNomePdv() + "_" + imageItem.getPendencia()+ "_" + numeroTelefoneUsuario + ".jpg");
+        */
+        String caminho =  "imagensSolução/" + imageItem.getNomePdv() + "_" + imageItem.getPendencia()+ "_" + numeroTelefoneUsuario + ".jpg";
+
+        StorageReference imagesRef = storageRef.child(caminho);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
+        Log.d("MyAdapter", "Caminho " + imagesRef.getPath());
+        Log.d("MyAdapter", "Tamanho" + data.length);
         UploadTask uploadTask = imagesRef.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             imagesRef.getDownloadUrl().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
-                    holder.pgb.setVisibility(View.GONE);;
+                    holder.pgb.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(context, "Falha ao obter o URL de download.", Toast.LENGTH_SHORT).show();
+                    holder.pgb.setVisibility(View.GONE);
                 }
             });
         }).addOnFailureListener(e -> Toast.makeText(context, "Falha ao fazer o upload da imagem.", Toast.LENGTH_SHORT).show());
+        holder.pgb.setVisibility(View.GONE);
+        holder.botaoSalvar.setVisibility(View.VISIBLE);
     }
 }

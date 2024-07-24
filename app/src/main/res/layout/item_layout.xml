@@ -55,15 +55,15 @@
 
     <ImageView
         android:id="@+id/recNova"
-        android:layout_width="245dp"
-        android:layout_height="168dp"
+        android:layout_width="233dp"
+        android:layout_height="156dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914"
+        app:layout_constraintVertical_bias="0.891"
         app:srcCompat="@drawable/background_txt_cadastro"
         tools:visibility="visible" />
 
@@ -126,23 +126,23 @@
 
     <ImageView
         android:id="@+id/recAntesFoto"
-        android:layout_width="239dp"
-        android:layout_height="141dp"
+        android:layout_width="229dp"
+        android:layout_height="139dp"
         android:layout_marginBottom="87dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.341"
+        app:layout_constraintVertical_bias="0.348"
         app:srcCompat="@drawable/background_txt_cadastro"
         tools:visibility="visible" />
 
     <TextView
         android:id="@+id/recAntes"
-        android:layout_width="196dp"
-        android:layout_height="45dp"
+        android:layout_width="197dp"
+        android:layout_height="43dp"
         android:background="@drawable/background_txt_cadastro"
         android:drawablePadding="8dp"
         android:ems="10"
@@ -154,8 +154,8 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106" />
+        app:layout_constraintVertical_bias="0.098" />
 </androidx.constraintlayout.widget.ConstraintLayout>
