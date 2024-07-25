@@ -55,6 +55,22 @@ public class VendedorAcoes extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         auth = FirebaseAuth.getInstance();
+        Log.d("VendedorAcoes", "Usuário logado: " + auth.getCurrentUser());
+        if(auth.getCurrentUser() == null){
+            Intent intent = new Intent(VendedorAcoes.this, VendedorActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            String regiao = getIntent().getStringExtra("regiao");
+            String nomeLoja = getIntent().getStringExtra("nome_loja");
+
+            if(nomeLoja!=null){
+                nomeLojaSelecionada = nomeLoja;
+                nomePdv.setText(nomeLojaSelecionada);
+                carregarRecycler(nomeLojaSelecionada);
+            }
+        }
+
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null && currentUser.getPhoneNumber() != null) {
             numeroTelefoneUsuario = currentUser.getPhoneNumber();

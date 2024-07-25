@@ -22,6 +22,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.appjava.R;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2); // Define o layout activity_main2
         inicializar(); // Inicializa os componentes
         createNotificationChannel(this);
+        FirebaseAppCheck fireCheck = FirebaseAppCheck.getInstance();
+        fireCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
 
         // Verificar a versão do Android para criar o canal de notificação
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -96,6 +96,7 @@ dependencies {
 
     //Firebase
 
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
     implementation("com.google.firebase:firebase-database:20.0.3")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
