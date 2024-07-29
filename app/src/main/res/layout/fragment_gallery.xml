@@ -7,4 +7,19 @@
     tools:context="Activity.ui.gallery.GaleriaDeFotosFg">
 
 
+    <TextView
+        android:id="@+id/apresentacaoAudit"
+        android:layout_width="402dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Boas vindas Auditor"
+        android:textColor="@color/black"
+        android:textSize="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

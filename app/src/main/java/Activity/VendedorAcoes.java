@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.appjava.R;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,14 +40,18 @@ public class VendedorAcoes extends AppCompatActivity {
     private ActivityResultLauncher<Intent> cameraLauncher;
     private FirebaseAuth auth;
     private String numeroTelefoneUsuario = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vendedor_acoes);
         FirebaseApp.initializeApp(VendedorAcoes.this);
+        setContentView(R.layout.activity_vendedor_acoes);
         TextView nomePdv = findViewById(R.id.nomePdv);
 
+        FirebaseAppCheck fireCheck = FirebaseAppCheck.getInstance();
+        fireCheck.installAppCheckProviderFactory(
+        PlayIntegrityAppCheckProviderFactory.getInstance());
+
+        Log.d("DEBUG0", "Context: " + this);
         /**
          * inicizlador das variáveis
          */
@@ -56,13 +62,17 @@ public class VendedorAcoes extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         Log.d("VendedorAcoes", "Usuário logado: " + auth.getCurrentUser());
+        Log.d("DEBUG", "UID: " + auth.getUid());
         if(auth.getCurrentUser() == null){
             Intent intent = new Intent(VendedorAcoes.this, VendedorActivity.class);
             startActivity(intent);
             finish();
         }else{
+
             String regiao = getIntent().getStringExtra("regiao");
             String nomeLoja = getIntent().getStringExtra("nome_loja");
+
+            Log.d("INFOS", "infos: " + regiao  + " " + nomeLoja);
 
             if(nomeLoja!=null){
                 nomeLojaSelecionada = nomeLoja;
@@ -70,12 +80,10 @@ public class VendedorAcoes extends AppCompatActivity {
                 carregarRecycler(nomeLojaSelecionada);
             }
         }
-
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null && currentUser.getPhoneNumber() != null) {
             numeroTelefoneUsuario = currentUser.getPhoneNumber();
         }
-
         botaoFormulario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +131,7 @@ public class VendedorAcoes extends AppCompatActivity {
         StorageReference storageRef = storage.getReference().child("imagensProblema/");
 
         storageRef.listAll().addOnSuccessListener(listResult -> {
-            imageItems.clear();
+        imageItems.clear();
 
             for (StorageReference item : listResult.getItems()) {
                 String nomeArquivo = item.getName();

@@ -6,11 +6,13 @@ import static Activity.NotificationHelper.createNotificationChannel;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -161,6 +163,11 @@ public class SelecionarLojasVendedorActivity extends AppCompatActivity {
                 public void onItemClick(View view, int position) {
                     selectedRegiao = regiaoList.get(position);
                     loadJSONData(selectedRegiao);
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if(imm != null){
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                 }
 
                 @Override

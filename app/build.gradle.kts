@@ -59,6 +59,7 @@ dependencies {
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.google.android.gms:play-services-base:18.3.0")
+    implementation("com.google.android.play:integrity:1.3.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
 
@@ -86,6 +87,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.play.services.maps)
+    implementation(libs.legacy.support.v4)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

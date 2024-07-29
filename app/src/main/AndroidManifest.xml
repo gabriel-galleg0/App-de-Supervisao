@@ -32,7 +32,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppJava"
         tools:targetApi="31">
-
+        <activity
+            android:name="Activity.ui.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="Activity.DrawerAuditorActivity"
+            android:exported="false"
+            android:label="@string/title_activity_drawer_auditor"
+            android:theme="@style/Theme.AppJava.NoActionBar" />
+        <activity
+            android:name="Activity.DrawerAuditor"
+            android:exported="false"
+            android:label="@string/title_activity_drawer_auditor"
+            android:theme="@style/Theme.AppJava.NoActionBar" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

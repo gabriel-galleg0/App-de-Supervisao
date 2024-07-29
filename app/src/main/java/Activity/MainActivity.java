@@ -22,6 +22,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.appjava.R;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this); // Habilita o layout de borda a borda
         setContentView(R.layout.activity_main2); // Define o layout activity_main2
         inicializar(); // Inicializa os componentes
+        FirebaseApp.initializeApp(this);
         createNotificationChannel(this);
         FirebaseAppCheck fireCheck = FirebaseAppCheck.getInstance();
         fireCheck.installAppCheckProviderFactory(
-                PlayIntegrityAppCheckProviderFactory.getInstance());
+        PlayIntegrityAppCheckProviderFactory.getInstance());
 
         // Verificar a versão do Android para criar o canal de notificação
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

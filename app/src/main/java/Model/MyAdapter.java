@@ -206,8 +206,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Log.d("MyAdapter", "Caminho " + imagesRef.getPath());
         Log.d("MyAdapter", "Tamanho" + data.length);
 
-        Log.d("MyAdaoter", "Caminho: "+ imagesRef.getPath());
-        Log.d("MyAdapter", "Tamanho: " + data.length);
 
         UploadTask uploadTask = imagesRef.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> {

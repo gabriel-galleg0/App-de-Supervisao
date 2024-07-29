@@ -36,13 +36,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String CHANNEL_ID = "canalPadrao";
     private String lojas = "";
     private String regiao ="";
+    private String pendencias = "";
 
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
         sendRegistrationToServer(token);
     }
-
     private void sendRegistrationToServer(String token) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -87,10 +87,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String[] partes = messageBody.split(" ");
          lojas = "";
          regiao = "";
+        pendencias = "";
 
         if(partes.length > 5){
             regiao = partes[partes.length - 1];
             lojas = partes[5];
+            pendencias = partes[0];
 
             for (int i = 6; i < partes.length -4; i++) {
                 lojas += " " + partes[i];
@@ -114,6 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             Intent intent = new Intent(MyFirebaseMessagingService.this, VendedorAcoes.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("regiao", regiao);
+                            intent.putExtra("pendencias", pendencias);
                             intent.putExtra("nome_loja", lojas);
                             PendingIntent pendingIntent = PendingIntent.getActivity(MyFirebaseMessagingService.this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
